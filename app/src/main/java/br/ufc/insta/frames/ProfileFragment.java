@@ -117,24 +117,24 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadPosts(){
-        /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Post>> call = service.getAllPhotos();
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                //progressDoalog.dismiss();
-                generateDataList(response.body());
-                //List<RetroPhoto> retroPhotoList = response.body();
-                //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                //progressDoalog.dismiss();
-                //Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        /*Create handle for the RetrofitInstance interface*/
+//        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+//        Call<List<Post>> call = service.getAllPhotos();
+//        call.enqueue(new Callback<List<Post>>() {
+//            @Override
+//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+//                //progressDoalog.dismiss();
+//                generateDataList(response.body());
+//                //List<RetroPhoto> retroPhotoList = response.body();
+//                //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Post>> call, Throwable t) {
+//                //progressDoalog.dismiss();
+//                //Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void generateDataList(List<Post> postList) {

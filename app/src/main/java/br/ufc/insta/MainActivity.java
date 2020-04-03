@@ -113,25 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        /*Create handle for the RetrofitInstance interface*/
-//        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-//        Call<List<RetroPhoto>> call = service.getAllPhotos();
-//        call.enqueue(new Callback<List<RetroPhoto>>() {
-//            @Override
-//            public void onResponse(Call<List<RetroPhoto>> call, Response<List<RetroPhoto>> response) {
-//                //progressDoalog.dismiss();
-//                //generateDataList(response.body());
-//                List<RetroPhoto> retroPhotoList = response.body();
-//                Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
-//                //progressDoalog.dismiss();
-//                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
 
     }
 
@@ -173,6 +154,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+//        if(mAuth!=null) {
+//            mCurrentUser = mAuth.getCurrentUser();
+//
+//            if (mCurrentUser == null) {
+//                Intent login = new Intent(MainActivity.this, LoginActivity.class);
+//                startActivity(login);
+//                finish();
+//            }
+//        }
+        Intent login = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(login);
+        finish();
 
     }
 

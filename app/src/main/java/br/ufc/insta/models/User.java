@@ -1,27 +1,63 @@
 package br.ufc.insta.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class User {
+    @SerializedName("id")
+    String id;
+
+    @SerializedName("fullName")
+    String fullName;
+
+    @SerializedName("nickName")
+    String nickName;
+
+    @SerializedName("password")
+    String password;
+
+    @SerializedName("email")
+    String email;
+
+    @SerializedName("photo")
+    String photo;
+
+    @SerializedName("phone")
+    String phone;
+
+    @SerializedName("birthday")
+    String birthday;
+
+    @SerializedName("posts")
+    public List<Post> posts = null;
 
     public User(){
 
     }
 
-    public User(String name, String email, String username, String photourl, String desc) {
-        this.name = name;
+    public User(String fullName, String email, String nickName, String password, String photo) {
+        this.fullName = fullName;
         this.email = email;
-        this.username = username;
-        this.photourl = photourl;
-        this.desc = desc;
+        this.nickName = nickName;
+        this.password = password;
+        this.photo = photo;
     }
 
-    String name,email,username,photourl,desc;
-
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -32,27 +68,51 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public String getPhotourl() {
-        return photourl;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhotourl(String photourl) {
-        this.photourl = photourl;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

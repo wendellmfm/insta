@@ -43,7 +43,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         @Override
         public void onClick(View v) {
             User userGlob=userList.get(getAdapterPosition());
-            MainActivity.mainActivity.loadProfileFragment(userGlob.getUsername());
+            MainActivity.mainActivity.loadProfileFragment(userGlob.getNickName());
 
         }
     }
@@ -71,12 +71,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.MyViewHolder myViewHolder, int i) {
         User user=userList.get(i);
-        myViewHolder.username.setText(user.getUsername());
-        myViewHolder.name.setText(user.getName());
+        myViewHolder.username.setText(user.getNickName());
+        myViewHolder.name.setText(user.getFullName());
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.usericon);
-        Glide.with(MainActivity.mainContext).load(user.getPhotourl()).apply(options).into(myViewHolder.circleImageView);
+        Glide.with(MainActivity.mainContext).load(user.getPhoto()).apply(options).into(myViewHolder.circleImageView);
 
     }
 
