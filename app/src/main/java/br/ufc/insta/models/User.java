@@ -11,7 +11,7 @@ public class User {
     @SerializedName("fullName")
     String fullName;
 
-    @SerializedName("nickName")
+    @SerializedName("nickname")
     String nickName;
 
     @SerializedName("password")

@@ -164,9 +164,10 @@ public class MainActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        }
-        Intent login = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(login);
-        finish();
+
+//        Intent login = new Intent(MainActivity.this, LoginActivity.class);
+//        startActivity(login);
+//        finish();
 
     }
 

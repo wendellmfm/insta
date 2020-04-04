@@ -91,8 +91,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO : TRANSFER TO POST
-                Intent act=new Intent(MainActivity.mainContext, PostActivity.class);
-                act.putExtra("POST_UID",MainActivity.profileName);
+                Intent act = new Intent(MainActivity.mainContext, PostActivity.class);
+                act.putExtra("POST_UID", MainActivity.profileName);
                 //act.putExtra("POST_DocID",docList.get(position).getId());
                 startActivity(act);
 

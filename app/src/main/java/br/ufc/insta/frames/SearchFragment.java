@@ -11,14 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufc.insta.R;
+import br.ufc.insta.RegisterActivity;
 import br.ufc.insta.adapters.SearchAdapter;
+import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
+import br.ufc.insta.service.GetDataService;
+import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.utility;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,8 +77,29 @@ public class SearchFragment extends Fragment {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(final String s) {
+                    GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                    Call<User> call = service.getUserByNickname(s);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            //progressDoalog.dismiss();
+                            User user = response.body();
+                            userList.clear();
+                            adapter.notifyItemRangeRemoved(0,userList.size()-1);
 
-                    // do query when u click submit
+                            userList.add(user);
+
+                            adapter.notifyDataSetChanged();
+                            //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            //progressDoalog.dismiss();
+                            //Toast.makeText(RegisterActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                            String message = t.getMessage();
+                        }
+                    });
 
                     return false;
                 }

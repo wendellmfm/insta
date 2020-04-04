@@ -13,10 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".EditActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
+
+        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+
+        <activity android:name=".PostActivity"></activity>
+        <activity android:name=".EditActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

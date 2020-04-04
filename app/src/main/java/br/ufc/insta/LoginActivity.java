@@ -11,7 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import br.ufc.insta.models.User;
+import br.ufc.insta.service.GetDataService;
+import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.utility;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,21 +42,44 @@ public class LoginActivity extends AppCompatActivity {
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email=emailfield.getText().toString();
-                String pass=passfield.getText().toString();
+                String email = emailfield.getText().toString();
+                String pass = passfield.getText().toString();
                 if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass))
                 {
                     //checking validity of the password
-                    if(pass.length()<6)
-                        Utils.makeToast(LoginActivity.this,"Password must be atleast length 6");
-                    else if(!pass.matches(".*[a-z].*"))
-                        Utils.makeToast(LoginActivity.this,"Password is missing lowercase letter.");
-                    else if(!pass.matches(".*[A-Z].*"))
-                        Utils.makeToast(LoginActivity.this,"Password is missing uppercase letter.");
-                    else{
+//                    if(pass.length()<6)
+//                        Utils.makeToast(LoginActivity.this,"Password must be atleast length 6");
+//                    else if(!pass.matches(".*[a-z].*"))
+//                        Utils.makeToast(LoginActivity.this,"Password is missing lowercase letter.");
+//                    else if(!pass.matches(".*[A-Z].*"))
+//                        Utils.makeToast(LoginActivity.this,"Password is missing uppercase letter.");
+//                    else{
                         //success pass. now check with database
-                    }
+                        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                        //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
 
+                        //User user = builUser(fullName, password, email);
+
+                        Call<User> call = service.userLogin(email, pass);
+                        call.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                //progressDoalog.dismiss();
+                                User jsonresponse = response.body();
+                                //generateDataList(response.body());
+                                //List<RetroPhoto> retroPhotoList = response.body();
+                                //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                //progressDoalog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                String message = t.getMessage();
+                            }
+                        });
+
+//                    }
                 }
                 else{
                     Toast.makeText(LoginActivity.this,"Enter field values...", Toast.LENGTH_LONG).show();
