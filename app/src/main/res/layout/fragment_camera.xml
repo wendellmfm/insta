@@ -85,9 +85,13 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="505dp" />
+        android:layout_marginTop="171dp"
+        android:layout_marginBottom="170dp"
+        android:text="Postar"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/camera_desc" />
 
 </android.support.constraint.ConstraintLayout>
 

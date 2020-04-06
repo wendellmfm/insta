@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,14 +22,8 @@ import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
 import br.ufc.insta.models.Post;
-import br.ufc.insta.service.GetDataService;
-import br.ufc.insta.service.RetrofitClientInstance;
-import br.ufc.insta.utils.RetroPhoto;
 import br.ufc.insta.utils.utility;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
