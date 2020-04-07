@@ -40,8 +40,7 @@ public class ProfileFragment extends Fragment {
     private View mView;
 
     CircleImageView profImageView;
-    TextView name,username,desc,postCount,folingCount,folwCount;
-    Button mainBtn;
+    TextView name, username, desc, postCount;
     ProgressBar progressBar;
 
     GridView gridLayout;
@@ -78,9 +77,6 @@ public class ProfileFragment extends Fragment {
         username = mView.findViewById(R.id.profile_UserName);
         desc = mView.findViewById(R.id.profile_Description);
         postCount = mView.findViewById(R.id.profile_postCount);
-        folingCount = mView.findViewById(R.id.profileFollowingCount);
-        folwCount = mView.findViewById(R.id.profileFollowersCount);
-        mainBtn = mView.findViewById(R.id.profile_Btn);
         progressBar = mView.findViewById(R.id.profile_progressbar);
         gridLayout = mView.findViewById(R.id.gridView);
 
@@ -100,13 +96,6 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
                 intent.putExtra("POST", postList.get(position));
                 startActivity(intent);
-
-            }
-        });
-
-        mainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
             }
         });
@@ -138,7 +127,8 @@ public class ProfileFragment extends Fragment {
         adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
 
-        //postCount.setText(user.getPosts().size());
+        String count = " " + postList.size() + " Posts";
+        postCount.setText(count);
     }
 
 }

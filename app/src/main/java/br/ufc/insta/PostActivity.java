@@ -2,10 +2,14 @@ package br.ufc.insta;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import br.ufc.insta.models.Like;
 import br.ufc.insta.models.Post;
@@ -35,7 +39,10 @@ public class PostActivity extends AppCompatActivity {
 
         post = getIntent().getParcelableExtra("POST");
 
-        postTimestamp.setText(post.getDatePost());
+        String longV = post.getDatePost();
+        long millisecond = Long.parseLong(longV);
+        String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
+        postTimestamp.setText(dateString);
 
         GlideApp.with(getApplicationContext())
                 .load(post.getPhotoPost())

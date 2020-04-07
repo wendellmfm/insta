@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="16dp"
+            android:padding="8dp"
             android:layout_weight="7">
 
             <TextView
@@ -44,12 +44,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Data de Início:"/>
+
                 <EditText
                     android:id="@+id/beginDate"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="yyyy/MM/dd"
-                    android:background="@android:drawable/editbox_background"/>
+                    android:background="@android:drawable/editbox_background"
+                    android:gravity="center"
+                    android:hint="yyyy/MM/dd" />
             </LinearLayout>
 
             <LinearLayout
@@ -60,9 +62,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Data de Fim:"/>
+
                 <EditText
                     android:id="@+id/endDate"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="yyyy/MM/dd"
                     android:background="@android:drawable/editbox_background"/>
@@ -88,6 +91,9 @@
 
             <GridView
                 android:id="@+id/searchPostsGrid"
+                android:maxWidth="400dp"
+                android:minWidth="320dp"
+                android:numColumns="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
             </GridView>

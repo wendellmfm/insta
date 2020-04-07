@@ -86,6 +86,9 @@ public class HomeFragment extends Fragment {
                 if(!TextUtils.isEmpty(begin) && !TextUtils.isEmpty(end)){
                     loadPosts(beginDate.getText().toString(), endDate.getText().toString());
                 }
+                else {
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -101,7 +104,6 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 progressBar.setVisibility(View.INVISIBLE);
                 generatePostList(response.body());
-                Toast.makeText(getContext(), "Size: " + response.body(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
