@@ -22,6 +22,7 @@ import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
 import br.ufc.insta.models.Post;
+import br.ufc.insta.models.User;
 import br.ufc.insta.utils.GlideApp;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -56,6 +57,15 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        //loadUser(MainActivity.user);
+        User user = new User();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            user = bundle.getParcelable("user");
+        }
+        else{
+            user = MainActivity.user;
+        }
 
         //loading
         profImageView = mView.findViewById(R.id.profileImageView);
@@ -70,11 +80,11 @@ public class ProfileFragment extends Fragment {
         gridLayout = mView.findViewById(R.id.gridView);
 
         //docList=new ArrayList<DocumentReference>();
-        name.setText(MainActivity.user.getFullName());
-        username.setText(MainActivity.user.getNickName());
+        name.setText(user.getFullName());
+        username.setText(user.getNickName());
 
         GlideApp.with(MainActivity.mainContext)
-                .load(MainActivity.user.getPhoto())
+                .load(user.getPhoto())
                 .placeholder(R.drawable.usericon)
                 .into(profImageView);
 
@@ -145,4 +155,28 @@ public class ProfileFragment extends Fragment {
         gridLayout.setAdapter(adapter);
     }
 
+    public void loadUser(ProfileFragment profileFragment, User user) {
+        //loading
+        //mView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        profImageView = mView.findViewById(R.id.profileImageView);
+        name = mView.findViewById(R.id.profile_FullName);
+        username = mView.findViewById(R.id.profile_UserName);
+        desc = mView.findViewById(R.id.profile_Description);
+        postCount = mView.findViewById(R.id.profile_postCount);
+        folingCount = mView.findViewById(R.id.profileFollowingCount);
+        folwCount = mView.findViewById(R.id.profileFollowersCount);
+        mainBtn = mView.findViewById(R.id.profile_Btn);
+        progressBar = mView.findViewById(R.id.profile_progressbar);
+        gridLayout = mView.findViewById(R.id.gridView);
+
+        //docList=new ArrayList<DocumentReference>();
+        name.setText(user.getFullName());
+        username.setText(user.getNickName());
+
+        GlideApp.with(MainActivity.mainContext)
+                .load(user.getPhoto())
+                .placeholder(R.drawable.usericon)
+                .into(profImageView);
+    }
 }

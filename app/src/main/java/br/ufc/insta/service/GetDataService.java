@@ -3,6 +3,7 @@ package br.ufc.insta.service;
 import java.util.List;
 
 import br.ufc.insta.models.Credential;
+import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -27,15 +28,15 @@ public interface GetDataService {
     @GET("/api/contact/nickname/{nickName}")
     Call<User> getUserByNickname(@Path("nickName") String nickName);
 
-    @GET("/api/contacts")
-    Call<List<User>> getAllUsers();
+    @GET("/api/post/contactid")
+    Call<List<Post>> getUserPosts(@Query("id") String id);
 
     //@Headers("Content-Type: application/json")
-//    @POST("/api/authenticate")
-//    Call<User> userLogin(@Query("nickName") String nickName, @Query("password") String password);
+    @GET("/api/authenticate")
+    Call<User> userLogin(@Query("nickname") String nickName, @Query("password") String password);
 
-    @POST("/api/authenticate")
-    Call<User> userLogin(@Body Credential credentials);
+//    @POST("/api/authenticate")
+//    Call<User> userLogin(@Body Credential credentials);
 
     @Multipart
     @POST("/api/upload")

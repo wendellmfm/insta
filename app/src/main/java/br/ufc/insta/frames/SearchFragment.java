@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,6 @@ public class SearchFragment extends Fragment {
 
     View mView;
     View _rootView=null;
-
-    utility Utility;
 
     RecyclerView recyclerView;
     private List<User> userList;
@@ -66,8 +65,6 @@ public class SearchFragment extends Fragment {
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
 
-            Utility = new utility();
-
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(final String s) {
@@ -90,7 +87,7 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
                             //progressDoalog.dismiss();
-                            //Toast.makeText(RegisterActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                             String message = t.getMessage();
                         }
                     });

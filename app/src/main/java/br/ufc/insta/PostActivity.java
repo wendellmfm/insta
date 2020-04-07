@@ -12,10 +12,10 @@ import br.ufc.insta.models.Like;
 
 public class PostActivity extends AppCompatActivity {
 
-    TextView postTite,postDesc,postTimestamp,likeCount;
+    TextView postTite, postDesc, postTimestamp, likeCount;
     ImageView postImage,likeBtn;
 
-    String uid,docid;
+    String uid, docid;
 
     ProgressBar progressBar;
 

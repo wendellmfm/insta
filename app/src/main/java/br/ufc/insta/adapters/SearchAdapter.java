@@ -42,8 +42,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         @Override
         public void onClick(View v) {
-            User userGlob = userList.get(getAdapterPosition());
-            MainActivity.mainActivity.loadProfileFragment(userGlob.getNickName());
+            User user = userList.get(getAdapterPosition());
+            MainActivity.mainActivity.loadProfileFragment(user);
         }
     }
 
@@ -58,7 +58,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.MyViewHolder myViewHolder, int i) {
-        User user=userList.get(i);
+        User user = userList.get(i);
         myViewHolder.username.setText(user.getNickName());
         myViewHolder.name.setText(user.getFullName());
         RequestOptions options = new RequestOptions()

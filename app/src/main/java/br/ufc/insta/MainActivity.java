@@ -215,13 +215,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void loadProfileFragment(String username) {
+    public void loadProfileFragment(User user) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("user", user);
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         ProfileFragment newPF = new ProfileFragment();
+        newPF.setArguments(arguments);
+
         transaction.replace(R.id.home_frame, newPF);
         transaction.addToBackStack(null);
         transaction.commit();
+
+        //newPF.loadUser(newPF, user);
     }
 
     @Override
