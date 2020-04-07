@@ -40,21 +40,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                User user = new User();
-                user.setId("10");
-                user.setFullName("Wendell Mendes");
-                user.setNickName("wendell");
-                user.setPassword("teste");
-                user.setEmail("wendell@emai.com");
-                user.setBirthday("");
-                user.setPhoto("https://redesocialtrinta.s3.amazonaws.com/thiagoqueiroz/DSC_1000e.jpg");
-                user.setPosts(new ArrayList<Post>());
+//                User user = new User();
+//                user.setId("10");
+//                user.setFullName("Wendell Mendes");
+//                user.setNickName("wendell");
+//                user.setPassword("teste");
+//                user.setEmail("wendell@emai.com");
+//                user.setBirthday("");
+//                user.setPhoto("https://redesocialtrinta.s3.amazonaws.com/thiagoqueiroz/DSC_1000e.jpg");
+//                user.setPosts(new ArrayList<Post>());
+//
+//                goToHome(user);
 
-                goToHome(user);
 
-
-//                String nickName = emailfield.getText().toString();
-//                String password = passfield.getText().toString();
+                String nickName = emailfield.getText().toString();
+                String password = passfield.getText().toString();
 //                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass))
 //                {
                     //checking validity of the password
@@ -66,30 +66,28 @@ public class LoginActivity extends AppCompatActivity {
 //                        Utils.makeToast(LoginActivity.this,"Password is missing uppercase letter.");
 //                    else{
                         //success pass. now check with database
-//                        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-//                        //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
-//
-//                        //User user = builUser(fullName, password, email);
-//                        //Credential credentials = new Credential(nickName, password);
-//                        Call<User> call = service.userLogin(nickName, password);
-//                        call.enqueue(new Callback<User>() {
-//                            @Override
-//                            public void onResponse(Call<User> call, Response<User> response) {
-//                                //progressDoalog.dismiss();
-//                                User user = response.body();
-//                                goToHome(user);
-//                                //generateDataList(response.body());
-//                                //List<RetroPhoto> retroPhotoList = response.body();
-//                                //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<User> call, Throwable t) {
-//                                //progressDoalog.dismiss();
-//                                Toast.makeText(LoginActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//                                String message = t.getMessage();
-//                            }
-//                        });
+                        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                        //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
+
+                        //User user = builUser(fullName, password, email);
+                        //Credential credentials = new Credential(nickName, password);
+                        Call<User> call = service.userLogin(nickName, password);
+                        call.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                //progressDoalog.dismiss();
+                                User user = response.body();
+
+                                goToHome(user);
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                //progressDoalog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos.", Toast.LENGTH_SHORT).show();
+                                String message = t.getMessage();
+                            }
+                        });
 
 //                    }
 //                }

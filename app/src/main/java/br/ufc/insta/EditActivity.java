@@ -12,14 +12,21 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.File;
+
+import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.ImageUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -31,10 +38,13 @@ public class EditActivity extends AppCompatActivity {
 
 
     private User userObject;
-    private Uri imageURI=null;
+    private Uri imageURI = null;
     private  int RESULT_LOAD_IMAGE = 5;
 
     private boolean alreadyLoaded=false;
+    private String userName;
+    private String password;
+    private String name;
 
 
     @Override
@@ -64,9 +74,9 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressBar.setVisibility(View.VISIBLE);
-                final String userName = nickname.getText().toString();
-                String password = pass.getText().toString();
-                final String name = fullname.getText().toString();
+                userName = nickname.getText().toString();
+                password = pass.getText().toString();
+                name = fullname.getText().toString();
 
                 if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password))
                 {
@@ -76,36 +86,63 @@ public class EditActivity extends AppCompatActivity {
 
                 if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name))
                 {
-                    GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-
-                    MainActivity.user.setFullName(name);
-                    MainActivity.user.setNickName(userName);
-                    MainActivity.user.setFullName(password);
-                    MainActivity.user.setPhoto(ImageUtils.getImagePath(getApplicationContext(), imageURI));
-
-                    Call<User> call = service.createUser(MainActivity.user);
-                    call.enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            User user = response.body();
-                        }
-
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            //progressDoalog.dismiss();
-                            Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    uploadToServer(ImageUtils.getImagePath(getApplicationContext(), imageURI));
+                    //updateUser(userName, password, name);
                 }
                 else{
                     Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                 }
-
             }
         });
 
+    }
+
+    private void uploadToServer(String filePath) {
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        GetDataService service = retrofit.create(GetDataService.class);
+
+        File file = new File(filePath);
+
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), fileReqBody);
+
+        Call<User> call = service.uploadProfileImage(MainActivity.user.getNickName(), part, "Perfil");
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+
+                updateUser(userName, password, name, user.getPhoto());
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                String message = t.getMessage();
+            }
+        });
+    }
+
+    private void updateUser(String userName, String password, String name, String photo) {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+
+        MainActivity.user.setFullName(name);
+        MainActivity.user.setNickName(userName);
+        MainActivity.user.setPassword(password);
+        MainActivity.user.setPhoto(photo);
+
+        Call<User> call = service.createUser(MainActivity.user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                //progressDoalog.dismiss();
+                Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

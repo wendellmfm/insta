@@ -1,6 +1,8 @@
 package br.ufc.insta.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.ufc.insta.models.Credential;
 import br.ufc.insta.models.Post;
@@ -28,21 +30,20 @@ public interface GetDataService {
     @GET("/api/contact/nickname/{nickName}")
     Call<User> getUserByNickname(@Path("nickName") String nickName);
 
-    @GET("/api/post/contactid")
-    Call<List<Post>> getUserPosts(@Query("id") String id);
+    @GET("/api/post/contactid/{id}")
+    Call<List<Post>> getUserPosts(@Path("id") String id);
 
-    //@Headers("Content-Type: application/json")
-    @GET("/api/authenticate")
-    Call<User> userLogin(@Query("nickname") String nickName, @Query("password") String password);
+    @GET("/api/authenticate/{nickname}/{password}")
+    Call<User> userLogin(@Path("nickname") String nickName, @Path("password") String password);
 
 //    @POST("/api/authenticate")
 //    Call<User> userLogin(@Body Credential credentials);
 
     @Multipart
     @POST("/api/upload")
-    Call<ResponseBody> uploadProfileImage(@Query("nickName") String nickName, @Part MultipartBody.Part file);
+    Call<User> uploadProfileImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);
 
     @Multipart
     @POST("/api/upload")
-    Call<ResponseBody> uploadPostImage(@Query("nickName") String nickName, @Part MultipartBody.Part file);
+    Call<Post> uploadPostImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);
 }

@@ -60,19 +60,11 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = emailField.getText().toString();
 
                 if (!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConfirmation) && !TextUtils.isEmpty(email)) {
-
                     if (password.equals(passwordConfirmation)) {
-                        if (password.length() < 6)
-                            Toast.makeText(RegisterActivity.this, "A senha deve ter pelo menos 6.", Toast.LENGTH_LONG).show();
-                        else if (!password.matches(".*[a-z].*"))
-                            Toast.makeText(RegisterActivity.this, "A senha deve conter letra minúscula.", Toast.LENGTH_LONG).show();
-                        else if (!password.matches(".*[A-Z].*"))
-                            Toast.makeText(RegisterActivity.this, "A senha deve conter letra maiúscula.", Toast.LENGTH_LONG).show();
-                        else {
                             GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
                             //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
 
-                            User user = builUser(fullName, password, email);
+                            User user = builUser(fullName, password, email, nickName);
 
                             Call<User> call = service.createUser(user);
                             call.enqueue(new Callback<User>() {
@@ -88,7 +80,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }
                     } else
                         Toast.makeText(RegisterActivity.this, "A senha está incorreta. Tente novamente.", Toast.LENGTH_LONG).show();
 
@@ -100,11 +91,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private User builUser(String fullName, String password, String email) {
+    private User builUser(String fullName, String password, String email, String nickname) {
         User user = new User();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPassword(password);
+        user.setNickName(nickname);
         user.setPosts(new ArrayList<Post>());
         return user;
     }

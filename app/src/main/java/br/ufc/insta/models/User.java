@@ -14,7 +14,7 @@ public class User implements Parcelable {
     @SerializedName("fullName")
     String fullName;
 
-    @SerializedName("nickname")
+    @SerializedName("nickName")
     String nickName;
 
     @SerializedName("password")

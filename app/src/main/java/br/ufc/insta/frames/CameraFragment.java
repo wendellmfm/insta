@@ -24,7 +24,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.ufc.insta.MainActivity;
 import br.ufc.insta.R;
+import br.ufc.insta.models.Post;
+import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.ImageUtils;
@@ -153,14 +156,16 @@ public class CameraFragment extends Fragment {
         //Create request body with text description and text media type
         //RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "image-type");
 
-        Call call = service.uploadPostImage("teste", part);
-        call.enqueue(new Callback() {
+        Call<Post> call = service.uploadPostImage(MainActivity.user.getNickName(), part, "POST");
+        call.enqueue(new Callback<Post>() {
             @Override
-            public void onResponse(Call call, Response response) {
-                int code = response.code();
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Post post = response.body();
+                MainActivity.user.getPosts().add(post);
             }
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Post> call, Throwable t) {
+
                 String message = t.getMessage();
             }
         });

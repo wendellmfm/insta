@@ -2,59 +2,60 @@ package br.ufc.insta.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class Post {
+
     @SerializedName("title")
-    private String title;
+    private String id;
 
-    private String desc;
+    @SerializedName("text")
+    private String text;
 
-    @SerializedName("thumbnailUrl")
-    private String photourl;
+    @SerializedName("photoPost")
+    private String photoPost;
 
-    private Date timestamp;
+    @SerializedName("datePost")
+    private String datePost;
 
     public Post(){
 
     }
 
-    public String getTitle() {
-        return title;
+    public Post(String id, String text, String photoPost, String datePost) {
+        this.id = id;
+        this.text = text;
+        this.photoPost = photoPost;
+        this.datePost = datePost;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getId() {
+        return id;
     }
 
-    public String getDesc() {
-        return desc;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public String getText() {
+        return text;
     }
 
-    public String getPhotourl() {
-        return photourl;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public void setPhotourl(String photourl) {
-        this.photourl = photourl;
+    public String getPhotoPost() {
+        return photoPost;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public void setPhotoPost(String photoPost) {
+        this.photoPost = photoPost;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public String getDatePost() {
+        return datePost;
     }
 
-    public Post(String title, String desc, String photourl, Date timestamp) {
-        this.title = title;
-        this.desc = desc;
-        this.photourl = photourl;
-        this.timestamp = timestamp;
+    public void setDatePost(String datePost) {
+        this.datePost = datePost;
     }
 }

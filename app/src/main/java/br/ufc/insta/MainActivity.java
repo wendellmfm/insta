@@ -228,8 +228,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.home_frame, newPF);
         transaction.addToBackStack(null);
         transaction.commit();
-
-        //newPF.loadUser(newPF, user);
     }
 
     @Override

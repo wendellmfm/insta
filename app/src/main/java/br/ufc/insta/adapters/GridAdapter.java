@@ -50,21 +50,16 @@ public class GridAdapter extends BaseAdapter {
         if(convertView == null){
             listViewHolder = new ViewHolder();
             convertView = layoutInflater.inflate(R.layout.singlegriditem, parent, false);
-            listViewHolder.imageView = (ImageView)convertView.findViewById(R.id.singleimageitem);
+            listViewHolder.imageView = convertView.findViewById(R.id.singleimageitem);
             convertView.setTag(listViewHolder);
         }else{
             listViewHolder = (ViewHolder)convertView.getTag();
         }
-        Post post = postList.get(position);
 
         GlideApp.with(listViewHolder.imageView.getContext())
-                .load("http://www.pngmart.com/files/11/Versus-PNG-Clipart.png")
+                .load(postList.get(position).getPhotoPost())
                 .placeholder(R.drawable.usericon)
                 .into(listViewHolder.imageView);
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.drawable.usericon);
-//        Glide.with(MainActivity.mainContext).load(post.getPhotourl()).apply(options).into(listViewHolder.imageView);
 
         return convertView;
     }

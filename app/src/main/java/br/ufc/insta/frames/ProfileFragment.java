@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,13 @@ import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
 import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
+import br.ufc.insta.service.GetDataService;
+import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.GlideApp;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +47,7 @@ public class ProfileFragment extends Fragment {
 
     GridAdapter adapter;
 
+    User user;
     private List<Post> postList;
 
     //private ArrayList<DocumentReference> docList;
@@ -58,7 +65,7 @@ public class ProfileFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //loadUser(MainActivity.user);
-        User user = new User();
+        user = new User();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             user = bundle.getParcelable("user");
@@ -119,39 +126,39 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadPosts(){
-//        /*Create handle for the RetrofitInstance interface*/
-//        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-//        Call<List<Post>> call = service.getAllPhotos();
-//        call.enqueue(new Callback<List<Post>>() {
-//            @Override
-//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-//                //progressDoalog.dismiss();
-//                generateDataList(response.body());
-//                //List<RetroPhoto> retroPhotoList = response.body();
-//                //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Post>> call, Throwable t) {
-//                //progressDoalog.dismiss();
-//                //Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        /*Create handle for the RetrofitInstance interface*/
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Post>> call = service.getUserPosts(user.getId());
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                //progressDoalog.dismiss();
+                generatePostList(response.body());
+                //List<Post> retroPhotoList = response.body();
+                Toast.makeText(getContext(), "Size: " + response.body(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                //progressDoalog.dismiss();
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void generateDataList(List<Post> postList) {
+    private void generatePostList(List<Post> postList) {
 //        recyclerView = findViewById(R.id.customRecyclerView);
 ////        adapter = new CustomAdapter(this,photoList);
 ////        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
 ////        recyclerView.setLayoutManager(layoutManager);
 ////        recyclerView.setAdapter(adapter);
 
-        int n = 10;
-        List<Post> postListTest = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-            postListTest.add(postList.get(i));
+//        int n = 10;
+//        List<Post> postListTest = new ArrayList<>();
+//        for(int i = 0; i < 10; i++)
+//            postListTest.add(postList.get(i));
 
-        adapter = new GridAdapter(this.getContext(), postListTest);
+        adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
     }
 
