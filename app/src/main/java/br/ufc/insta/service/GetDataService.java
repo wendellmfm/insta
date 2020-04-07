@@ -31,9 +31,6 @@ public interface GetDataService {
     @GET("/api/authenticate/{nickname}/{password}")
     Call<User> userLogin(@Path("nickname") String nickName, @Path("password") String password);
 
-//    @POST("/api/authenticate")
-//    Call<User> userLogin(@Body Credential credentials);
-
     @Multipart
     @POST("/api/upload")
     Call<User> uploadProfileImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);

@@ -39,11 +39,12 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data de Início:"/>
+                    android:text="De:"/>
 
                 <EditText
                     android:id="@+id/beginDate"
@@ -52,16 +53,12 @@
                     android:background="@android:drawable/editbox_background"
                     android:gravity="center"
                     android:hint="yyyy/MM/dd" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data de Fim:"/>
+                    android:layout_margin="4dp"
+                    android:text="a"/>
 
                 <EditText
                     android:id="@+id/endDate"
@@ -88,6 +85,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/postsCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:text="99 Posts" />
 
             <GridView
                 android:id="@+id/searchPostsGrid"

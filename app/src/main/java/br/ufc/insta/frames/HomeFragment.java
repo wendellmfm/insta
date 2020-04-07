@@ -1,21 +1,25 @@
 package br.ufc.insta.frames;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import br.ufc.insta.MainActivity;
+import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
 import br.ufc.insta.models.Post;
@@ -36,6 +40,7 @@ public class HomeFragment extends Fragment {
 
     EditText beginDate;
     EditText endDate;
+    TextView postCount;
     Button searchButton;
 
     GridView gridLayout;
@@ -59,12 +64,14 @@ public class HomeFragment extends Fragment {
         beginDate = mView.findViewById(R.id.beginDate);
         endDate = mView.findViewById(R.id.endDate);
         searchButton = mView.findViewById(R.id.searchPostsButton);
+        postCount = mView.findViewById(R.id.postsCount);
         gridLayout = mView.findViewById(R.id.searchPostsGrid);
         progressBar = mView.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         beginDate.addTextChangedListener(MaskEditUtil.mask(beginDate, MaskEditUtil.FORMAT_DATE));
         endDate.addTextChangedListener(MaskEditUtil.mask(endDate, MaskEditUtil.FORMAT_DATE));
+        postCount.setVisibility(View.INVISIBLE);
 
         user = new User();
         Bundle bundle = this.getArguments();
@@ -89,6 +96,16 @@ public class HomeFragment extends Fragment {
                 else {
                     progressBar.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+
+        gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
+                intent.putExtra("POST", postList.get(position));
+                startActivity(intent);
+
             }
         });
 
@@ -118,6 +135,10 @@ public class HomeFragment extends Fragment {
         this.postList = postList;
         adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
+
+        postCount.setVisibility(View.VISIBLE);
+        String count = " " + postList.size() + " Posts encontrados.";
+        postCount.setText(count);
     }
 
 }
