@@ -75,14 +75,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         bottomNavigationView.setSelectedItemId(R.id.bottomnav_home);
-        loadFragment(homeFragment);
+        loadFragment(profileFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch(menuItem.getItemId())
                 {
-
                     case R.id.bottomnav_home:
                         queue.add(R.id.bottomnav_home);
                         loadFragment(homeFragment);
@@ -170,16 +169,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-//        Intent login = new Intent(MainActivity.this, LoginActivity.class);
-//        startActivity(login);
-//        finish();
-
-    }
-
-    @Override
     public void onBackPressed() {
         int count = getFragmentManager().getBackStackEntryCount();
         if (count == 0) {
@@ -187,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
             //additional code
             if(queue.size()!=0)
             {
-
                 queue.remove(queue.size()-1);
 
                 if(queue.size()==0)

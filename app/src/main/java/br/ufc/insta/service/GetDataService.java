@@ -25,6 +25,9 @@ public interface GetDataService {
     @GET("/api/post/contactid/{id}")
     Call<List<Post>> getUserPosts(@Path("id") String id);
 
+    @GET("/api/post/{datainicial}/{datafinal}")
+    Call<List<Post>> getUserPostsByData(@Path("datainicial") String datainicial, @Path("datafinal") String datafinal);
+
     @GET("/api/authenticate/{nickname}/{password}")
     Call<User> userLogin(@Path("nickname") String nickName, @Path("password") String password);
 

@@ -41,7 +41,7 @@
 
         <activity android:name=".PostActivity" />
         <activity android:name=".EditActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustNothing"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -43,8 +43,8 @@ public class ProfileFragment extends Fragment {
     TextView name,username,desc,postCount,folingCount,folwCount;
     Button mainBtn;
     ProgressBar progressBar;
-    GridView gridLayout;
 
+    GridView gridLayout;
     GridAdapter adapter;
 
     User user;
@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
 
         name.setText(user.getFullName());
         username.setText(user.getNickName());
-        postCount.setText(user.getPosts().size());
 
         GlideApp.with(MainActivity.mainContext)
                 .load(user.getPhoto())
@@ -124,7 +123,6 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 progressBar.setVisibility(View.INVISIBLE);
                 generatePostList(response.body());
-                Toast.makeText(getContext(), "Size: " + response.body(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -139,6 +137,8 @@ public class ProfileFragment extends Fragment {
         this.postList = postList;
         adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
+
+        //postCount.setText(user.getPosts().size());
     }
 
 }
