@@ -2,7 +2,6 @@ package br.ufc.insta.frames;
 
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,7 +27,7 @@ import java.util.Date;
 import br.ufc.insta.R;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
-import br.ufc.insta.utils.utility;
+import br.ufc.insta.utils.ImageUtils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -52,8 +51,6 @@ public class CameraFragment extends Fragment {
     Button postButton;
 
     ProgressBar progressBar;
-
-    utility Utility;
 
     private View mView;
 
@@ -79,8 +76,6 @@ public class CameraFragment extends Fragment {
         button = mView.findViewById(R.id.floatingActionButton);
         postButton = mView.findViewById(R.id.button);
         progressBar = mView.findViewById(R.id.camera_progressBar);
-
-        Utility = new utility();
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +129,7 @@ public class CameraFragment extends Fragment {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    uploadToServer(getImagePath(imageURI));
+                    uploadToServer(ImageUtils.getImagePath(getContext(), imageURI));
             }
         });
 
@@ -158,7 +153,7 @@ public class CameraFragment extends Fragment {
         //Create request body with text description and text media type
         //RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "image-type");
 
-        Call call = service.uploadImage(part);
+        Call call = service.uploadPostImage("teste", part);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -177,7 +172,6 @@ public class CameraFragment extends Fragment {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Glide.with(this).load(imageFile.getPath()).into(imageView);
-
         }
 
         if(requestCode == RESULT_LOAD_IMAGE &&  resultCode == RESULT_OK)
@@ -187,22 +181,22 @@ public class CameraFragment extends Fragment {
         }
     }
 
-    public String getImagePath(Uri uri){
-        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
-        cursor.close();
-
-        cursor = getContext().getContentResolver().query(
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-        cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-        cursor.close();
-
-        return path;
-    }
+//    public String getImagePath(Uri uri){
+//        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+//        cursor.moveToFirst();
+//        String document_id = cursor.getString(0);
+//        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+//        cursor.close();
+//
+//        cursor = getContext().getContentResolver().query(
+//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+//        cursor.moveToFirst();
+//        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+//        cursor.close();
+//
+//        return path;
+//    }
 
     private File createImageFile() throws IOException {
         // Create an image file name

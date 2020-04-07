@@ -1,10 +1,13 @@
 package br.ufc.insta.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class User {
+public class User implements Parcelable {
     @SerializedName("id")
     String id;
 
@@ -43,6 +46,29 @@ public class User {
         this.password = password;
         this.photo = photo;
     }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        fullName = in.readString();
+        nickName = in.readString();
+        password = in.readString();
+        email = in.readString();
+        photo = in.readString();
+        phone = in.readString();
+        birthday = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -114,5 +140,22 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(fullName);
+        dest.writeString(nickName);
+        dest.writeString(password);
+        dest.writeString(email);
+        dest.writeString(photo);
+        dest.writeString(phone);
+        dest.writeString(birthday);
     }
 }

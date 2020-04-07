@@ -11,19 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufc.insta.R;
-import br.ufc.insta.RegisterActivity;
 import br.ufc.insta.adapters.SearchAdapter;
-import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
-import br.ufc.insta.utils.utility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,9 +66,7 @@ public class SearchFragment extends Fragment {
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
 
-
             Utility = new utility();
-
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

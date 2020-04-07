@@ -25,13 +25,13 @@ import br.ufc.insta.frames.HomeFragment;
 import br.ufc.insta.frames.NotificationFragment;
 import br.ufc.insta.frames.ProfileFragment;
 import br.ufc.insta.frames.SearchFragment;
-import br.ufc.insta.utils.utility;
+import br.ufc.insta.models.User;
 
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE_CODE = 1;
-    public static String profileName; //  UID of the person to open profile
+    public static User user;
     public static Context mainContext;
 
     BottomNavigationView bottomNavigationView;
@@ -40,10 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  static MainActivity mainActivity;
 
-
     ArrayList<Integer> queue;
-
-    utility Utility;
 
     Fragment homeFragment,cameraFragment,profileFragment,searchFragment,notifFragment;
 
@@ -52,11 +49,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView=findViewById(R.id.bottomNavigationView);
-        frameLayout=findViewById(R.id.home_frame);
-        toolbar=findViewById(R.id.main_toolbar);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        frameLayout = findViewById(R.id.home_frame);
+        toolbar = findViewById(R.id.main_toolbar);
 
-        Utility=new utility();
+        if( getIntent().getExtras() != null)
+        {
+            user = getIntent().getExtras().getParcelable("user");
+        }
+
         homeFragment = new HomeFragment();
         cameraFragment = new CameraFragment();
         profileFragment = new ProfileFragment();
@@ -68,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
         queue.add(R.id.bottomnav_home);
 
         mainActivity = this;
-
-
         mainContext = this;
 
         setSupportActionBar(toolbar);
@@ -110,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        checkPermissions();
+    }
+
+    private void checkPermissions() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -135,8 +139,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Permission has already been granted
         }
-
-
     }
 
     @Override
@@ -178,16 +180,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-//        if(mAuth!=null) {
-//            mCurrentUser = mAuth.getCurrentUser();
-//
-//            if (mCurrentUser == null) {
-//                Intent login = new Intent(MainActivity.this, LoginActivity.class);
-//                startActivity(login);
-//                finish();
-//            }
-//        }
-
 //        Intent login = new Intent(MainActivity.this, LoginActivity.class);
 //        startActivity(login);
 //        finish();
@@ -224,7 +216,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadProfileFragment(String username) {
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        ProfileFragment newPF = new ProfileFragment();
+        transaction.replace(R.id.home_frame, newPF);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

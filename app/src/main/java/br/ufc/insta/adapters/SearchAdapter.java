@@ -34,17 +34,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.singleitemfullname);
-            username=itemView.findViewById(R.id.singleitemusername);
-            circleImageView=itemView.findViewById(R.id.singleitemimageview);
+            name = itemView.findViewById(R.id.singleitemfullname);
+            username = itemView.findViewById(R.id.singleitemusername);
+            circleImageView = itemView.findViewById(R.id.singleitemimageview);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            User userGlob=userList.get(getAdapterPosition());
+            User userGlob = userList.get(getAdapterPosition());
             MainActivity.mainActivity.loadProfileFragment(userGlob.getNickName());
-
         }
     }
 
@@ -53,17 +52,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public SearchAdapter.MyViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, int i) {
         View view= LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.singlesearchitem,viewGroup,false);
-
-
-
-        /*
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        */
 
         return new MyViewHolder(view);
     }

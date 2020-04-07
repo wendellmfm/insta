@@ -22,14 +22,13 @@ import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
 import br.ufc.insta.models.Post;
-import br.ufc.insta.utils.utility;
+import br.ufc.insta.utils.GlideApp;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-
 
     private View mView;
 
@@ -39,9 +38,7 @@ public class ProfileFragment extends Fragment {
     ProgressBar progressBar;
     GridView gridLayout;
 
-
     GridAdapter adapter;
-    utility Utility;
 
     private List<Post> postList;
 
@@ -73,6 +70,13 @@ public class ProfileFragment extends Fragment {
         gridLayout = mView.findViewById(R.id.gridView);
 
         //docList=new ArrayList<DocumentReference>();
+        name.setText(MainActivity.user.getFullName());
+        username.setText(MainActivity.user.getNickName());
+
+        GlideApp.with(MainActivity.mainContext)
+                .load(MainActivity.user.getPhoto())
+                .placeholder(R.drawable.usericon)
+                .into(profImageView);
 
         loadPosts();
 //        postList = new ArrayList<Post>();
@@ -85,16 +89,11 @@ public class ProfileFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO : TRANSFER TO POST
                 Intent act = new Intent(MainActivity.mainContext, PostActivity.class);
-                act.putExtra("POST_UID", MainActivity.profileName);
+                act.putExtra("POST_UID", MainActivity.user.getNickName());
                 //act.putExtra("POST_DocID",docList.get(position).getId());
                 startActivity(act);
-
-
             }
         });
-
-
-        Utility=new utility();
 
         //update button based on id
 

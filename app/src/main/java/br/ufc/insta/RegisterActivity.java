@@ -17,7 +17,6 @@ import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
-import br.ufc.insta.utils.utility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,9 +26,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText nickNameField, fullNameField, passwordField, passwordConfirmationField, emailField;
     TextView loginField;
     Button regBtn;
-
-    utility Utils;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +40,10 @@ public class RegisterActivity extends AppCompatActivity {
         loginField = findViewById(R.id.register_login);
         regBtn = findViewById(R.id.register_regBtn);
 
-        Utils=new utility();
-
-
         loginField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login=new Intent(RegisterActivity.this,LoginActivity.class);
+                Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(login);
                 finish();
             }
@@ -66,50 +59,41 @@ public class RegisterActivity extends AppCompatActivity {
                 String passwordConfirmation = passwordConfirmationField.getText().toString();
                 final String email = emailField.getText().toString();
 
-                if(!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConfirmation) && !TextUtils.isEmpty(email))
-                {
+                if (!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConfirmation) && !TextUtils.isEmpty(email)) {
 
-                    if(password.equals(passwordConfirmation))
-                    {
-                        if(password.length()<6)
-                            Utils.makeToast(RegisterActivity.this,"Password must be atleast length 6");
-                        else if(!password.matches(".*[a-z].*"))
-                            Utils.makeToast(RegisterActivity.this,"Password is missing lowercase letter.");
-                        else if(!password.matches(".*[A-Z].*"))
-                            Utils.makeToast(RegisterActivity.this,"Password is missing uppercase letter.");
-                        else{
-                            //success pass. now try to add to database
-                            /*Create handle for the RetrofitInstance interface*/
+                    if (password.equals(passwordConfirmation)) {
+                        if (password.length() < 6)
+                            Toast.makeText(RegisterActivity.this, "A senha deve ter pelo menos 6.", Toast.LENGTH_LONG).show();
+                        else if (!password.matches(".*[a-z].*"))
+                            Toast.makeText(RegisterActivity.this, "A senha deve conter letra minúscula.", Toast.LENGTH_LONG).show();
+                        else if (!password.matches(".*[A-Z].*"))
+                            Toast.makeText(RegisterActivity.this, "A senha deve conter letra maiúscula.", Toast.LENGTH_LONG).show();
+                        else {
                             GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
                             //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
 
-                        User user = builUser(fullName, password, email);
+                            User user = builUser(fullName, password, email);
 
-                        Call<User> call = service.createUser(user);
+                            Call<User> call = service.createUser(user);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
-                                    //progressDoalog.dismiss();
-                                    User jsonresponse = response.body();
-                                    //generateDataList(response.body());
-                                    //List<RetroPhoto> retroPhotoList = response.body();
-                                    //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
+                                    User user = response.body();
+
+                                    goToHome(user);
                                 }
 
                                 @Override
                                 public void onFailure(Call<User> call, Throwable t) {
-                                    //progressDoalog.dismiss();
                                     Toast.makeText(RegisterActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
-                    }
-                    else
-                        Utils.makeToast(RegisterActivity.this,"Password mismatch...");
+                    } else
+                        Toast.makeText(RegisterActivity.this, "A senha está incorreta. Tente novamente.", Toast.LENGTH_LONG).show();
 
-                }
-                else{
-                    Utils.makeToast(RegisterActivity.this,"Enter all fields...");
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Preencha todos os campos.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -125,8 +109,9 @@ public class RegisterActivity extends AppCompatActivity {
         return user;
     }
 
-    void goToHome(){
-        Intent home=new Intent(RegisterActivity.this,MainActivity.class);
+    void goToHome(User user) {
+        Intent home = new Intent(RegisterActivity.this, MainActivity.class);
+        home.putExtra("user", user);
         startActivity(home);
         finish();
     }

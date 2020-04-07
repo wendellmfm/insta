@@ -10,18 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import br.ufc.insta.models.User;
-import br.ufc.insta.utils.utility;
+import br.ufc.insta.service.GetDataService;
+import br.ufc.insta.service.RetrofitClientInstance;
+import br.ufc.insta.utils.ImageUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditActivity extends AppCompatActivity {
 
-    utility Utility;
-
     ProgressBar progressBar;
 
-    EditText pass,username,name,desc;
+    EditText pass, nickname, fullname, desc;
     CircleImageView imageView;
     Button saveBtn;
 
@@ -38,7 +42,13 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        load();
+        pass = findViewById(R.id.edit_pass);
+        nickname = findViewById(R.id.edit_username);
+        fullname = findViewById(R.id.edit_name);
+        desc = findViewById(R.id.edit_desc);
+        imageView = findViewById(R.id.edit_imageview);
+        saveBtn = findViewById(R.id.edit_savebtn);
+        progressBar = findViewById(R.id.edit_progress);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,25 +64,42 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressBar.setVisibility(View.VISIBLE);
-                final String userName = username.getText().toString();
-                String password=pass.getText().toString();
-                final String Name = name.getText().toString();
-                final String Desc = desc.getText().toString();
+                final String userName = nickname.getText().toString();
+                String password = pass.getText().toString();
+                final String name = fullname.getText().toString();
 
-                if(TextUtils.isEmpty(Name) || TextUtils.isEmpty(password))
+                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password))
                 {
-                    Utility.makeToast(EditActivity.this,"Empty name or password fields..");
+                    Toast.makeText(EditActivity.this,"Empty name or password fields..", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-
-                if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(Name))
+                if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name))
                 {
-                    // validate password
+                    GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+
+                    MainActivity.user.setFullName(name);
+                    MainActivity.user.setNickName(userName);
+                    MainActivity.user.setFullName(password);
+                    MainActivity.user.setPhoto(ImageUtils.getImagePath(getApplicationContext(), imageURI));
+
+                    Call<User> call = service.createUser(MainActivity.user);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            User user = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            //progressDoalog.dismiss();
+                            Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
                 else{
-                    Utility.makeToast(EditActivity.this,"Enter all fields..");
+                    Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                 }
 
@@ -93,17 +120,6 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-    void load(){
-        pass=findViewById(R.id.edit_pass);
-        username=findViewById(R.id.edit_username);
-        name=findViewById(R.id.edit_name);
-        desc=findViewById(R.id.edit_desc);
-        imageView=findViewById(R.id.edit_imageview);
-        saveBtn=findViewById(R.id.edit_savebtn);
-        progressBar=findViewById(R.id.edit_progress);
-        Utility=new utility();
-
-    }
 
     @Override
     protected void onStart() {
