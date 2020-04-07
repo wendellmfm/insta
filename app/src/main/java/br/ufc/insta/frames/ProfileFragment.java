@@ -126,7 +126,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadPosts(){
-        /*Create handle for the RetrofitInstance interface*/
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Post>> call = service.getUserPosts(user.getId());
         call.enqueue(new Callback<List<Post>>() {
@@ -147,43 +146,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void generatePostList(List<Post> postList) {
-//        recyclerView = findViewById(R.id.customRecyclerView);
-////        adapter = new CustomAdapter(this,photoList);
-////        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-////        recyclerView.setLayoutManager(layoutManager);
-////        recyclerView.setAdapter(adapter);
-
-//        int n = 10;
-//        List<Post> postListTest = new ArrayList<>();
-//        for(int i = 0; i < 10; i++)
-//            postListTest.add(postList.get(i));
-
         adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
     }
 
-    public void loadUser(ProfileFragment profileFragment, User user) {
-        //loading
-        //mView = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        profImageView = mView.findViewById(R.id.profileImageView);
-        name = mView.findViewById(R.id.profile_FullName);
-        username = mView.findViewById(R.id.profile_UserName);
-        desc = mView.findViewById(R.id.profile_Description);
-        postCount = mView.findViewById(R.id.profile_postCount);
-        folingCount = mView.findViewById(R.id.profileFollowingCount);
-        folwCount = mView.findViewById(R.id.profileFollowersCount);
-        mainBtn = mView.findViewById(R.id.profile_Btn);
-        progressBar = mView.findViewById(R.id.profile_progressbar);
-        gridLayout = mView.findViewById(R.id.gridView);
-
-        //docList=new ArrayList<DocumentReference>();
-        name.setText(user.getFullName());
-        username.setText(user.getNickName());
-
-        GlideApp.with(MainActivity.mainContext)
-                .load(user.getPhoto())
-                .placeholder(R.drawable.usericon)
-                .into(profImageView);
-    }
 }

@@ -32,18 +32,16 @@ public class EditActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
 
-    EditText pass, nickname, fullname, desc;
+    EditText pass, passconf, nickname, fullname;
     CircleImageView imageView;
     Button saveBtn;
 
-
-    private User userObject;
-    private Uri imageURI = null;
     private  int RESULT_LOAD_IMAGE = 5;
 
-    private boolean alreadyLoaded=false;
+    private Uri imageURI = null;
     private String userName;
     private String password;
+    private String passwordConf;
     private String name;
 
 
@@ -53,9 +51,9 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         pass = findViewById(R.id.edit_pass);
+        passconf = findViewById(R.id.edit_passconf);
         nickname = findViewById(R.id.edit_username);
         fullname = findViewById(R.id.edit_name);
-        desc = findViewById(R.id.edit_desc);
         imageView = findViewById(R.id.edit_imageview);
         saveBtn = findViewById(R.id.edit_savebtn);
         progressBar = findViewById(R.id.edit_progress);
@@ -74,20 +72,29 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressBar.setVisibility(View.VISIBLE);
+
                 userName = nickname.getText().toString();
                 password = pass.getText().toString();
+                passwordConf = passconf.getText().toString();
                 name = fullname.getText().toString();
 
-                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password))
+                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password)|| TextUtils.isEmpty(passwordConf))
                 {
-                    Toast.makeText(EditActivity.this,"Empty name or password fields..", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(name))
+                if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConf) && !TextUtils.isEmpty(name))
                 {
-                    uploadToServer(ImageUtils.getImagePath(getApplicationContext(), imageURI));
-                    //updateUser(userName, password, name);
+                    if (password.equals(passwordConf)) {
+                        if (imageURI != null) {
+                            uploadToServer(ImageUtils.getImagePath(getApplicationContext(), imageURI));
+                        } else {
+                            updateUser(userName, password, name, null);
+                        }
+                    }
+                    else
+                        Toast.makeText(EditActivity.this, "Senhas diferentes. Tente novamente.", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
@@ -128,7 +135,9 @@ public class EditActivity extends AppCompatActivity {
         MainActivity.user.setFullName(name);
         MainActivity.user.setNickName(userName);
         MainActivity.user.setPassword(password);
-        MainActivity.user.setPhoto(photo);
+        if(photo != null){
+            MainActivity.user.setPhoto(photo);
+        }
 
         Call<User> call = service.createUser(MainActivity.user);
         call.enqueue(new Callback<User>() {
@@ -157,15 +166,4 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(!alreadyLoaded) {
-            alreadyLoaded=true;
-
-
-            }
-    }
 }

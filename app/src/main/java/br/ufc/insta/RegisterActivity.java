@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
                     } else
-                        Toast.makeText(RegisterActivity.this, "A senha está incorreta. Tente novamente.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "Senhas diferentes. Tente novamente.", Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(RegisterActivity.this, "Preencha todos os campos.", Toast.LENGTH_LONG).show();

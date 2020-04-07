@@ -28,7 +28,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="Profile Name"
+        android:hint="Nome"
         android:inputType="textPersonName"
         android:padding="15dp"
         android:typeface="sans"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_imageview" />
 
     <EditText
-        android:id="@+id/edit_pass"
+        android:id="@+id/edit_passconf"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -45,14 +45,14 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="Enter current Password"
+        android:hint="Confirme a senha"
         android:inputType="textPassword"
         android:padding="15dp"
         android:typeface="sans"
         app:layout_constraintBottom_toTopOf="@+id/edit_savebtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_desc"
+        app:layout_constraintTop_toBottomOf="@+id/edit_pass"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -63,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@Username"
+        android:hint="Nickname"
         android:inputType="text"
         android:padding="15dp"
         android:textStyle="italic"
@@ -73,14 +73,14 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
     <EditText
-        android:id="@+id/edit_desc"
+        android:id="@+id/edit_pass"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="Description"
+        android:hint="Senha"
         android:inputType="textLongMessage|textMultiLine"
         android:maxLines="3"
         android:padding="15dp"
