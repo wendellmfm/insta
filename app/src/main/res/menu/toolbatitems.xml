@@ -4,8 +4,6 @@
 
     <item
         android:id="@+id/toolbar_edit"
-        android:title="Edit Account" />
-    <item
-        android:id="@+id/toolbar_logout"
-        android:title="Logout" />
+        android:title="Editar Conta" />
+
 </menu>

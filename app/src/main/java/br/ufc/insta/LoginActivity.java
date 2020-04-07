@@ -3,6 +3,7 @@ package br.ufc.insta;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.util.ArrayList;
-
-import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
@@ -22,7 +20,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText emailfield,passfield;
+    EditText emailfield, passfield;
     TextView reg;
     Button logBtn;
 
@@ -55,22 +53,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 String nickName = emailfield.getText().toString();
                 String password = passfield.getText().toString();
-//                if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass))
-//                {
-                    //checking validity of the password
-//                    if(pass.length()<6)
-//                        Utils.makeToast(LoginActivity.this,"Password must be atleast length 6");
-//                    else if(!pass.matches(".*[a-z].*"))
-//                        Utils.makeToast(LoginActivity.this,"Password is missing lowercase letter.");
-//                    else if(!pass.matches(".*[A-Z].*"))
-//                        Utils.makeToast(LoginActivity.this,"Password is missing uppercase letter.");
-//                    else{
-                        //success pass. now check with database
+                if(!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(password))
+                {
                         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                        //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
-
-                        //User user = builUser(fullName, password, email);
-                        //Credential credentials = new Credential(nickName, password);
                         Call<User> call = service.userLogin(nickName, password);
                         call.enqueue(new Callback<User>() {
                             @Override
@@ -88,13 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                                 String message = t.getMessage();
                             }
                         });
-
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(LoginActivity.this,"Enter field values...", Toast.LENGTH_LONG).show();
-//                }
-
+                    } else{
+                        Toast.makeText(LoginActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
+                    }
             }
         });
 

@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.bottomnav_profile:
                         queue.add(R.id.bottomnav_profile);
-                        //profileName=mCurrentUser.getUid();
                         loadFragment(profileFragment);
                         return true;
                 }
@@ -146,15 +145,9 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.toolbar_edit:
-                Intent activity=new Intent(MainActivity.this,EditActivity.class);
+                Intent activity = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(activity);
                 return true;
-
-            case R.id.toolbar_logout:
-                //mAuth.signOut();
-                finish();
-                startActivity(getIntent());
-                return false;
 
             default:return false;
         }
@@ -168,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadFragment(Fragment fragment)
     {
-        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.home_frame,fragment);
+        transaction.replace(R.id.home_frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
@@ -205,11 +198,8 @@ public class MainActivity extends AppCompatActivity {
                     int top = queue.get(queue.size() - 1);
                     bottomNavigationView.setSelectedItemId(top);
                     queue.remove(queue.size() - 1);
-
                 }
-
             }
-
         } else {
             getFragmentManager().popBackStack();
         }

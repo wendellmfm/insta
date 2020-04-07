@@ -62,16 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConfirmation) && !TextUtils.isEmpty(email)) {
                     if (password.equals(passwordConfirmation)) {
                             GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                            //Call<String> call = service.getUserRegister("4", fullName, email, nickName, password, "", "", "", new ArrayList<Post>() {});
-
                             User user = builUser(fullName, password, email, nickName);
-
                             Call<User> call = service.createUser(user);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
                                     User user = response.body();
-
                                     goToHome(user);
                                 }
 

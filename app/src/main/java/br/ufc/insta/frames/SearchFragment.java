@@ -81,14 +81,12 @@ public class SearchFragment extends Fragment {
                             userList.add(user);
 
                             adapter.notifyDataSetChanged();
-                            //Toast.makeText(MainActivity.this, "Size: " + retroPhotoList.size(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
                             //progressDoalog.dismiss();
                             Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                            String message = t.getMessage();
                         }
                     });
 

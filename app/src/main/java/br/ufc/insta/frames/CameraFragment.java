@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -24,7 +26,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.ufc.insta.EditActivity;
 import br.ufc.insta.MainActivity;
+import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
@@ -46,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class CameraFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private int RESULT_LOAD_IMAGE=5;
+    private int RESULT_LOAD_IMAGE = 5;
 
     EditText title,desc;
     ImageView imageView;
@@ -60,6 +64,8 @@ public class CameraFragment extends Fragment {
     private Uri imageURI = null;
     String currentPhotoPath;
     private File imageFile;
+
+    boolean isCameraImage = false;
 
 
     public CameraFragment() {
@@ -112,27 +118,18 @@ public class CameraFragment extends Fragment {
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                     }
                 }
-//                progressBar.setVisibility(View.VISIBLE);
-//
-//                final String titleText = title.getText().toString();
-//                final String descText = desc.getText().toString();
-//
-//                if(!TextUtils.isEmpty(titleText) && !TextUtils.isEmpty(descText) && imageURI!=null)
-//                {
-//
-//
-//                }
-//                else{
-//                    progressBar.setVisibility(View.INVISIBLE);
-//                    Utility.makeToast(MainActivity.mainContext,"Enter all fields.");
-//                }
+
             }
         });
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCameraImage){
+                    uploadToServer(imageFile.getPath());
+                }else{
                     uploadToServer(ImageUtils.getImagePath(getContext(), imageURI));
+                }
             }
         });
 
@@ -144,29 +141,22 @@ public class CameraFragment extends Fragment {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         GetDataService service = retrofit.create(GetDataService.class);
 
-        //Create a file object using file path
         File file = new File(filePath);
-
-        // Create a request body with file and image media type
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        // Create MultipartBody.Part using file request-body,file name and part name
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), fileReqBody);
-
-        //Create request body with text description and text media type
-        //RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "image-type");
-
         Call<Post> call = service.uploadPostImage(MainActivity.user.getNickName(), part, "POST");
         call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 Post post = response.body();
-                MainActivity.user.getPosts().add(post);
+
+                Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
+                intent.putExtra("POST", post);
+                startActivity(intent);
             }
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-
-                String message = t.getMessage();
+                Toast.makeText(getContext(),"Não foi possível publicar a postagem. Por favor, tente novamente mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -176,32 +166,17 @@ public class CameraFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            isCameraImage = true;
             Glide.with(this).load(imageFile.getPath()).into(imageView);
         }
 
         if(requestCode == RESULT_LOAD_IMAGE &&  resultCode == RESULT_OK)
         {
+            isCameraImage = false;
             imageURI = data.getData();
             imageView.setImageURI(imageURI);
         }
     }
-
-//    public String getImagePath(Uri uri){
-//        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-//        cursor.moveToFirst();
-//        String document_id = cursor.getString(0);
-//        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
-//        cursor.close();
-//
-//        cursor = getContext().getContentResolver().query(
-//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-//        cursor.moveToFirst();
-//        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-//        cursor.close();
-//
-//        return path;
-//    }
 
     private File createImageFile() throws IOException {
         // Create an image file name

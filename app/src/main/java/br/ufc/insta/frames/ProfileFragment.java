@@ -64,7 +64,6 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        //loadUser(MainActivity.user);
         user = new User();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -74,7 +73,6 @@ public class ProfileFragment extends Fragment {
             user = MainActivity.user;
         }
 
-        //loading
         profImageView = mView.findViewById(R.id.profileImageView);
         name = mView.findViewById(R.id.profile_FullName);
         username = mView.findViewById(R.id.profile_UserName);
@@ -86,9 +84,9 @@ public class ProfileFragment extends Fragment {
         progressBar = mView.findViewById(R.id.profile_progressbar);
         gridLayout = mView.findViewById(R.id.gridView);
 
-        //docList=new ArrayList<DocumentReference>();
         name.setText(user.getFullName());
         username.setText(user.getNickName());
+        postCount.setText(user.getPosts().size());
 
         GlideApp.with(MainActivity.mainContext)
                 .load(user.getPhoto())
@@ -96,23 +94,16 @@ public class ProfileFragment extends Fragment {
                 .into(profImageView);
 
         loadPosts();
-//        postList = new ArrayList<Post>();
-//
-//        adapter = new GridAdapter(this.getContext(),postList);
-//        gridLayout.setAdapter(adapter);
 
         gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO : TRANSFER TO POST
-                Intent act = new Intent(MainActivity.mainContext, PostActivity.class);
-                act.putExtra("POST_UID", MainActivity.user.getNickName());
-                //act.putExtra("POST_DocID",docList.get(position).getId());
-                startActivity(act);
+                Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
+                intent.putExtra("POST", postList.get(position));
+                startActivity(intent);
+
             }
         });
-
-        //update button based on id
 
         mainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,21 +122,21 @@ public class ProfileFragment extends Fragment {
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                //progressDoalog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
                 generatePostList(response.body());
-                //List<Post> retroPhotoList = response.body();
                 Toast.makeText(getContext(), "Size: " + response.body(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                //progressDoalog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void generatePostList(List<Post> postList) {
+        this.postList = postList;
         adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
     }

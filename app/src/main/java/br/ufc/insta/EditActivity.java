@@ -29,13 +29,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EditActivity extends AppCompatActivity {
-
-    ProgressBar progressBar;
-
-    EditText pass, passconf, nickname, fullname;
-    CircleImageView imageView;
-    Button saveBtn;
-
     private  int RESULT_LOAD_IMAGE = 5;
 
     private Uri imageURI = null;
@@ -44,6 +37,11 @@ public class EditActivity extends AppCompatActivity {
     private String passwordConf;
     private String name;
 
+    ProgressBar progressBar;
+
+    EditText pass, passconf, nickname, fullname;
+    CircleImageView imageView;
+    Button saveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public class EditActivity extends AppCompatActivity {
         fullname = findViewById(R.id.edit_name);
         imageView = findViewById(R.id.edit_imageview);
         saveBtn = findViewById(R.id.edit_savebtn);
-        progressBar = findViewById(R.id.edit_progress);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +68,7 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressBar = findViewById(R.id.edit_progress);
                 progressBar.setVisibility(View.VISIBLE);
 
                 userName = nickname.getText().toString();
@@ -78,7 +76,7 @@ public class EditActivity extends AppCompatActivity {
                 passwordConf = passconf.getText().toString();
                 name = fullname.getText().toString();
 
-                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password)|| TextUtils.isEmpty(passwordConf))
+                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordConf))
                 {
                     Toast.makeText(EditActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
                     return;
