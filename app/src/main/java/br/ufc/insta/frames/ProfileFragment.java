@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 
 import br.ufc.insta.MainActivity;
 import br.ufc.insta.PostActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.adapters.GridAdapter;
+import br.ufc.insta.models.Like;
 import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
@@ -39,18 +41,17 @@ public class ProfileFragment extends Fragment {
 
     private View mView;
 
-    CircleImageView profImageView;
-    TextView name, username, desc, postCount;
-    ProgressBar progressBar;
+    private CircleImageView profImageView;
+    private TextView name, username, desc, postCount;
+    private ProgressBar progressBar;
 
-    GridView gridLayout;
-    GridAdapter adapter;
+    private GridView gridLayout;
+    private GridAdapter adapter;
 
-    User user;
+    private User user;
     private List<Post> postList;
-
-    //private ArrayList<DocumentReference> docList;
-
+    private HashMap<String, String> likeHashmap = new HashMap<>();
+    private List<Like> likes;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -95,6 +96,7 @@ public class ProfileFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
                 intent.putExtra("POST", postList.get(position));
+                intent.putExtra("LIKES", likeHashmap.get(postList.get(position).getId()));
                 startActivity(intent);
 
             }
@@ -129,6 +131,36 @@ public class ProfileFragment extends Fragment {
 
         String count = " " + postList.size() + " Posts";
         postCount.setText(count);
+
+        getAllLikes();
+    }
+
+    private void getAllLikes() {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        Call<List<Like>> call = service.getAllLikes();
+        call.enqueue(new Callback<List<Like>>() {
+            @Override
+            public void onResponse(Call<List<Like>> call, Response<List<Like>> response) {
+                likes = response.body();
+                setLikesNumbers();
+            }
+
+            @Override
+            public void onFailure(Call<List<Like>> call, Throwable t) {
+                Toast.makeText(getContext(), "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setLikesNumbers() {
+        for(Like l : likes){
+            for(Post p : postList){
+                if(l.getId().equalsIgnoreCase(p.getId())){
+                    likeHashmap.put(p.getId(), l.getNrCurtidas());
+                    break;
+                }
+            }
+        }
     }
 
 }

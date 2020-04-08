@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Insta</string>
     <string name="instacopy">Insta</string>
-    <string name="email_address">Nickname</string>
+    <string name="email_address">e-mail</string>
     <string name="password">Senha</string>
     <string name="login">Login</string>
 

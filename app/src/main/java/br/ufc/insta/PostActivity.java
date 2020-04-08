@@ -29,7 +29,7 @@ public class PostActivity extends AppCompatActivity {
     boolean likeStatus = false;
 
     private Post post;
-    List<Like> likes;
+    private List<Like> likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class PostActivity extends AppCompatActivity {
         likeCount = findViewById(R.id.postLikeCount);
 
         post = getIntent().getParcelableExtra("POST");
+        likeCount.setText(getIntent().getStringExtra("LIKES"));
 
         String longV = post.getDatePost();
         long millisecond = Long.parseLong(longV);

@@ -18,7 +18,7 @@
         android:backgroundTint="#75FFFFFF"
         android:ems="10"
         android:fontFamily="sans-serif-thin"
-        android:hint="@string/email_address"
+        android:hint="Username"
         android:inputType="textEmailAddress"
         android:padding="15dp"
         android:textColor="@color/white"
