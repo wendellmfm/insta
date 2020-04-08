@@ -32,14 +32,13 @@ public class EditActivity extends AppCompatActivity {
     private  int RESULT_LOAD_IMAGE = 5;
 
     private Uri imageURI = null;
-    private String userName;
     private String password;
     private String passwordConf;
     private String name;
 
     ProgressBar progressBar;
 
-    EditText pass, passconf, nickname, fullname;
+    EditText pass, passconf, fullname;
     CircleImageView imageView;
     Button saveBtn;
 
@@ -50,10 +49,12 @@ public class EditActivity extends AppCompatActivity {
 
         pass = findViewById(R.id.edit_pass);
         passconf = findViewById(R.id.edit_passconf);
-        nickname = findViewById(R.id.edit_username);
         fullname = findViewById(R.id.edit_name);
         imageView = findViewById(R.id.edit_imageview);
         saveBtn = findViewById(R.id.edit_savebtn);
+
+        progressBar = findViewById(R.id.edit_progress);
+        progressBar.setVisibility(View.INVISIBLE);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,31 +69,30 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                progressBar = findViewById(R.id.edit_progress);
                 progressBar.setVisibility(View.VISIBLE);
-
-                userName = nickname.getText().toString();
                 password = pass.getText().toString();
                 passwordConf = passconf.getText().toString();
                 name = fullname.getText().toString();
 
-                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordConf))
+                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordConf))
                 {
+                    progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(EditActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConf) && !TextUtils.isEmpty(name))
+                if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConf) && !TextUtils.isEmpty(name))
                 {
                     if (password.equals(passwordConf)) {
                         if (imageURI != null) {
                             uploadToServer(ImageUtils.getImagePath(getApplicationContext(), imageURI));
                         } else {
-                            updateUser(userName, password, name, null);
+                            updateUser(password, name, null);
                         }
                     }
                     else
                         Toast.makeText(EditActivity.this, "Senhas diferentes. Tente novamente.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
                 }
                 else{
                     Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
@@ -118,7 +118,7 @@ public class EditActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
 
-                updateUser(userName, password, name, user.getPhoto());
+                updateUser(password, name, user.getPhoto());
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
@@ -127,11 +127,10 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUser(String userName, String password, String name, String photo) {
+    private void updateUser(String password, String name, String photo) {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
 
         MainActivity.user.setFullName(name);
-        MainActivity.user.setNickName(userName);
         MainActivity.user.setPassword(password);
         if(photo != null){
             MainActivity.user.setPhoto(photo);
@@ -142,12 +141,16 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
+                progressBar.setVisibility(View.INVISIBLE);
+
+                Toast.makeText(EditActivity.this, "Usuário editado com sucesso.", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                //progressDoalog.dismiss();
                 Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }

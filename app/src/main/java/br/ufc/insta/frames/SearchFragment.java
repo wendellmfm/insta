@@ -73,19 +73,23 @@ public class SearchFragment extends Fragment {
                     call.enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            //progressDoalog.dismiss();
                             User user = response.body();
-                            userList.clear();
-                            adapter.notifyItemRangeRemoved(0,userList.size()-1);
+                            if(user != null){
+                                userList.clear();
+                                adapter.notifyItemRangeRemoved(0,userList.size()-1);
 
-                            userList.add(user);
+                                userList.add(user);
 
-                            adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
+                            }
+                            else{
+                                Toast.makeText(getContext(), "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            //progressDoalog.dismiss();
                             Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                         }
                     });

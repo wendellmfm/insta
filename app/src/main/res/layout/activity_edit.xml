@@ -13,9 +13,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="90dp"
         android:layout_marginEnd="8dp"
+        android:src="@drawable/usericon"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="4dp"
-        android:src="@drawable/usericon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,23 +56,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/edit_username"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="Nickname"
-        android:inputType="text"
-        android:padding="15dp"
-        android:textStyle="italic"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
-
-    <EditText
         android:id="@+id/edit_pass"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
@@ -81,13 +64,13 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Senha"
-        android:inputType="textLongMessage|textMultiLine"
-        android:maxLines="3"
+        android:inputType="textPassword"
         android:padding="15dp"
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
     <Button
         android:id="@+id/edit_savebtn"

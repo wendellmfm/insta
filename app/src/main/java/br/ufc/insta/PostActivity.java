@@ -44,11 +44,15 @@ public class PostActivity extends AppCompatActivity {
         likeCount = findViewById(R.id.postLikeCount);
 
         post = getIntent().getParcelableExtra("POST");
-        likeCount.setText(getIntent().getStringExtra("LIKES"));
+
+        String likesNumber = getIntent().getStringExtra("LIKES");
+        if(likesNumber != null){
+            likeCount.setText(likesNumber);
+        }
 
         String longV = post.getDatePost();
         long millisecond = Long.parseLong(longV);
-        String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
+        String dateString = DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
         postTimestamp.setText(dateString);
 
         GlideApp.with(getApplicationContext())

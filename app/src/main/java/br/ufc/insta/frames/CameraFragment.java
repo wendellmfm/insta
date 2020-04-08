@@ -52,7 +52,6 @@ public class CameraFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private int RESULT_LOAD_IMAGE = 5;
 
-    EditText title,desc;
     ImageView imageView;
     FloatingActionButton button;
     Button postButton;
@@ -78,9 +77,6 @@ public class CameraFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_camera, container, false);
-
-        title = mView.findViewById(R.id.camera_title);
-        desc = mView.findViewById(R.id.camera_desc);
         imageView = mView.findViewById(R.id.camera_imageView);
         button = mView.findViewById(R.id.floatingActionButton);
         postButton = mView.findViewById(R.id.button);
@@ -125,6 +121,7 @@ public class CameraFragment extends Fragment {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(isCameraImage){
                     uploadToServer(imageFile.getPath());
                 }else{

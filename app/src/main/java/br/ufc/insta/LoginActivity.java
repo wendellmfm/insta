@@ -38,19 +38,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                User user = new User();
-//                user.setId("10");
-//                user.setFullName("Wendell Mendes");
-//                user.setNickName("wendell");
-//                user.setPassword("teste");
-//                user.setEmail("wendell@emai.com");
-//                user.setBirthday("");
-//                user.setPhoto("https://redesocialtrinta.s3.amazonaws.com/thiagoqueiroz/DSC_1000e.jpg");
-//                user.setPosts(new ArrayList<Post>());
-//
-//                goToHome(user);
-
-
                 String nickName = emailfield.getText().toString();
                 String password = passfield.getText().toString();
                 if(!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(password))
@@ -60,15 +47,14 @@ public class LoginActivity extends AppCompatActivity {
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
-                                //progressDoalog.dismiss();
                                 User user = response.body();
 
+                                Toast.makeText(LoginActivity.this, "Login efetuado com sucesso.", Toast.LENGTH_SHORT).show();
                                 goToHome(user);
                             }
 
                             @Override
                             public void onFailure(Call<User> call, Throwable t) {
-                                //progressDoalog.dismiss();
                                 Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos.", Toast.LENGTH_SHORT).show();
                                 String message = t.getMessage();
                             }
