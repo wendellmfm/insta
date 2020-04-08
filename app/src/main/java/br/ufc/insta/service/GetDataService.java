@@ -2,6 +2,7 @@ package br.ufc.insta.service;
 
 import java.util.List;
 
+import br.ufc.insta.models.Like;
 import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import okhttp3.MultipartBody;
@@ -38,4 +39,13 @@ public interface GetDataService {
     @Multipart
     @POST("/api/upload")
     Call<Post> uploadPostImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);
+
+    @GET("/")
+    Call<List<Like>> getAllLikes();
+
+    @GET("/post/curtir/{id}")
+    Call<Like> like(@Path("id") String id);
+
+    @GET("/post/descurtir/{id}")
+    Call<Like> dislike(@Path("id") String id);
 }

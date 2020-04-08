@@ -5,15 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import br.ufc.insta.models.Like;
 import br.ufc.insta.models.Post;
+import br.ufc.insta.service.GetDataService;
+import br.ufc.insta.service.RetrofitClientInstance;
 import br.ufc.insta.utils.GlideApp;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PostActivity extends AppCompatActivity {
@@ -24,6 +29,7 @@ public class PostActivity extends AppCompatActivity {
     boolean likeStatus = false;
 
     private Post post;
+    List<Like> likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +55,83 @@ public class PostActivity extends AppCompatActivity {
                 .placeholder(R.drawable.usericon)
                 .into(postImage);
 
+        getAllLikes();
+
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 likeStatus =! likeStatus;
-                Like like = new Like(likeStatus);
+                if(likeStatus){
+                    like();
+                }
+                else{
+                    dislike();
+                }
 
                 updateLikeBtn(likeStatus);
             }
         });
 
+    }
+
+    private void like() {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        Call<Like> call = service.like(post.getId());
+        call.enqueue(new Callback<Like>() {
+            @Override
+            public void onResponse(Call<Like> call, Response<Like> response) {
+                Like like = response.body();
+                likeCount.setText(like.getNrCurtidas());
+            }
+
+            @Override
+            public void onFailure(Call<Like> call, Throwable t) {
+                Toast.makeText(PostActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void dislike() {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        Call<Like> call = service.dislike(post.getId());
+        call.enqueue(new Callback<Like>() {
+            @Override
+            public void onResponse(Call<Like> call, Response<Like> response) {
+                Like like = response.body();
+                likeCount.setText(like.getNrCurtidas());
+            }
+
+            @Override
+            public void onFailure(Call<Like> call, Throwable t) {
+                Toast.makeText(PostActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getAllLikes() {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        Call<List<Like>> call = service.getAllLikes();
+        call.enqueue(new Callback<List<Like>>() {
+            @Override
+            public void onResponse(Call<List<Like>> call, Response<List<Like>> response) {
+                likes = response.body();
+                setLikesNumbers(likes);
+            }
+
+            @Override
+            public void onFailure(Call<List<Like>> call, Throwable t) {
+                Toast.makeText(PostActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setLikesNumbers(List<Like> likes) {
+        for(Like l : likes){
+            if(l.getId().equalsIgnoreCase(post.getId())){
+                likeCount.setText(l.getNrCurtidas());
+                break;
+            }
+        }
     }
 
     private void updateLikeBtn(boolean likeStatus) {

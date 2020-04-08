@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Post implements Parcelable {
 
-    @SerializedName("title")
+    @SerializedName("id")
     private String id;
 
     @SerializedName("text")
