@@ -8,13 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,14 +34,10 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
-    private View mView;
-
-    private CircleImageView profImageView;
-    private TextView name, username, desc, postCount;
+    private TextView postCount;
     private ProgressBar progressBar;
 
     private GridView gridLayout;
-    private GridAdapter adapter;
 
     private User user;
     private List<Post> postList;
@@ -59,7 +52,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_profile, container, false);
+        View mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         user = new User();
         Bundle bundle = this.getArguments();
@@ -70,10 +63,9 @@ public class ProfileFragment extends Fragment {
             user = MainActivity.user;
         }
 
-        profImageView = mView.findViewById(R.id.profileImageView);
-        name = mView.findViewById(R.id.profile_FullName);
-        username = mView.findViewById(R.id.profile_UserName);
-        desc = mView.findViewById(R.id.profile_Description);
+        CircleImageView profImageView = mView.findViewById(R.id.profileImageView);
+        TextView name = mView.findViewById(R.id.profile_FullName);
+        TextView username = mView.findViewById(R.id.profile_UserName);
         postCount = mView.findViewById(R.id.profile_postCount);
         progressBar = mView.findViewById(R.id.profile_progressbar);
         gridLayout = mView.findViewById(R.id.gridView);
@@ -125,7 +117,7 @@ public class ProfileFragment extends Fragment {
 
     private void generatePostList(List<Post> postList) {
         this.postList = postList;
-        adapter = new GridAdapter(this.getContext(), postList);
+        GridAdapter adapter = new GridAdapter(this.getContext(), postList);
         gridLayout.setAdapter(adapter);
 
         String count = " " + postList.size() + " Posts";

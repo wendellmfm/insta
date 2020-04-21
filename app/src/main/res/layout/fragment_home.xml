@@ -49,9 +49,9 @@
                     android:id="@+id/beginDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
                     android:gravity="center"
-                    android:hint="yyyy/MM/dd" />
+                    android:layout_marginHorizontal="8dp"
+                    android:hint="dd/MM/yyyy" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,8 +63,9 @@
                     android:id="@+id/endDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="yyyy/MM/dd"
-                    android:background="@android:drawable/editbox_background"/>
+                    android:layout_marginHorizontal="8dp"
+                    android:hint="dd/MM/yyyy" />
+
             </LinearLayout>
 
             <Button

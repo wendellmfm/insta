@@ -1,21 +1,25 @@
 package br.ufc.insta.frames;
 
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.ufc.insta.MainActivity;
@@ -26,7 +30,6 @@ import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
-import br.ufc.insta.utils.MaskEditUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,19 +37,19 @@ import retrofit2.Response;
 
 public class SearchByDateFragment extends Fragment {
 
-    private View mView;
-
     private EditText beginDate;
     private EditText endDate;
     private TextView postCount;
-    private Button searchButton;
+    private DatePickerDialog datePickerDialog;
 
     private GridView gridLayout;
-    private GridAdapter adapter;
     private ProgressBar progressBar;
 
     private User user;
     private List<Post> postList;
+
+    private String beginDateFormatted;
+    private String endDateFormatted;
 
     public SearchByDateFragment() {
 
@@ -56,18 +59,62 @@ public class SearchByDateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_home, container, false);
+        View mView = inflater.inflate(R.layout.fragment_home, container, false);
 
         beginDate = mView.findViewById(R.id.beginDate);
         endDate = mView.findViewById(R.id.endDate);
-        searchButton = mView.findViewById(R.id.searchPostsButton);
+        Button searchButton = mView.findViewById(R.id.searchPostsButton);
         postCount = mView.findViewById(R.id.postsCount);
         gridLayout = mView.findViewById(R.id.searchPostsGrid);
         progressBar = mView.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
-        beginDate.addTextChangedListener(MaskEditUtil.mask(beginDate, MaskEditUtil.FORMAT_DATE));
-        endDate.addTextChangedListener(MaskEditUtil.mask(endDate, MaskEditUtil.FORMAT_DATE));
+        beginDate.setInputType(InputType.TYPE_NULL);
+        beginDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    final Calendar cldr = Calendar.getInstance();
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    datePickerDialog = new DatePickerDialog(getActivity(),
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    beginDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                    beginDateFormatted = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                }
+                            }, year, month, day);
+                    datePickerDialog.show();
+                }
+            }
+        });
+
+        endDate.setInputType(InputType.TYPE_NULL);
+        endDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    final Calendar cldr = Calendar.getInstance();
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    datePickerDialog = new DatePickerDialog(getActivity(),
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    endDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                    endDateFormatted = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                }
+                            }, year, month, day);
+                    datePickerDialog.show();
+                }
+            }
+        });
+
         postCount.setVisibility(View.INVISIBLE);
 
         user = new User();
@@ -84,11 +131,8 @@ public class SearchByDateFragment extends Fragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
 
-                String begin = beginDate.getText().toString();
-                String end = endDate.getText().toString();
-
-                if(!TextUtils.isEmpty(begin) && !TextUtils.isEmpty(end)){
-                    loadPosts(beginDate.getText().toString(), endDate.getText().toString());
+                if(!TextUtils.isEmpty(beginDateFormatted) && !TextUtils.isEmpty(endDateFormatted)){
+                    loadPosts(beginDateFormatted, endDateFormatted);
                 }
                 else {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -102,10 +146,8 @@ public class SearchByDateFragment extends Fragment {
                 Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
                 intent.putExtra("POST", postList.get(position));
                 startActivity(intent);
-
             }
         });
-
 
         return mView;
     }
@@ -123,14 +165,14 @@ public class SearchByDateFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void generatePostList(List<Post> postList) {
         this.postList = postList;
-        adapter = new GridAdapter(this.getContext(), postList);
+        GridAdapter adapter = new GridAdapter(getActivity(), postList);
         gridLayout.setAdapter(adapter);
 
         postCount.setVisibility(View.VISIBLE);
