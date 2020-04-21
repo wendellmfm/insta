@@ -50,23 +50,23 @@ public class CameraFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private int RESULT_LOAD_IMAGE = 5;
 
-    ImageView imageView;
-    FloatingActionButton button;
-    Button postButton;
+    private ImageView imageView;
+    private FloatingActionButton button;
+    private Button postButton;
 
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     private View mView;
 
     private Uri imageURI = null;
-    String currentPhotoPath;
+    private String currentPhotoPath;
     private File imageFile;
 
     boolean isCameraImage = false;
 
 
     public CameraFragment() {
-        // Required empty public constructor
+
     }
 
 

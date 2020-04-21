@@ -28,17 +28,17 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
-    SearchView searchView;
+    private SearchView searchView;
 
-    View mView;
-    View _rootView=null;
+    private View mView;
+    private View _rootView = null;
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private List<User> userList;
     private SearchAdapter adapter;
 
     public SearchFragment() {
-        // Required empty public constructor
+
     }
 
 

@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
     public static Context mainContext;
     public  static MainActivity mainActivity;
 
-    BottomNavigationView bottomNavigationView;
-    FrameLayout frameLayout;
-    Toolbar toolbar;
+    private BottomNavigationView bottomNavigationView;
+    private FrameLayout frameLayout;
+    private Toolbar toolbar;
 
-    Fragment searchByDateFragment, cameraFragment, profileFragment, searchFragment;
+    private Fragment searchByDateFragment, cameraFragment, profileFragment, searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

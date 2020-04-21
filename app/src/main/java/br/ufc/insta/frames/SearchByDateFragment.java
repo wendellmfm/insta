@@ -36,27 +36,26 @@ public class SearchByDateFragment extends Fragment {
 
     private View mView;
 
-    EditText beginDate;
-    EditText endDate;
-    TextView postCount;
-    Button searchButton;
+    private EditText beginDate;
+    private EditText endDate;
+    private TextView postCount;
+    private Button searchButton;
 
-    GridView gridLayout;
-    GridAdapter adapter;
-    ProgressBar progressBar;
+    private GridView gridLayout;
+    private GridAdapter adapter;
+    private ProgressBar progressBar;
 
-    User user;
+    private User user;
     private List<Post> postList;
 
     public SearchByDateFragment() {
-        // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_home, container, false);
 
         beginDate = mView.findViewById(R.id.beginDate);

@@ -20,9 +20,9 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText emailfield, passfield;
-    TextView reg;
-    Button logBtn;
+    private EditText emailfield, passfield;
+    private TextView reg;
+    private Button logBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

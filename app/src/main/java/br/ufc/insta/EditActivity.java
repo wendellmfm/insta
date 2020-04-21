@@ -36,11 +36,11 @@ public class EditActivity extends AppCompatActivity {
     private String passwordConf;
     private String name;
 
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
-    EditText pass, passconf, fullname;
-    CircleImageView imageView;
-    Button saveBtn;
+    private EditText pass, passconf, fullname;
+    private CircleImageView imageView;
+    private Button saveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

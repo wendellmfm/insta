@@ -23,9 +23,9 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText nickNameField, fullNameField, passwordField, passwordConfirmationField, emailField;
-    TextView loginField;
-    Button regBtn;
+    private EditText nickNameField, fullNameField, passwordField, passwordConfirmationField, emailField;
+    private TextView loginField;
+    private Button regBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

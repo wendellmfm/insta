@@ -23,8 +23,8 @@ import retrofit2.Response;
 
 public class PostActivity extends AppCompatActivity {
 
-    TextView postTite, postDesc, postTimestamp, likeCount;
-    ImageView postImage,likeBtn;
+    private TextView postTite, postDesc, postTimestamp, likeCount;
+    private ImageView postImage, likeBtn;
 
     boolean likeStatus = false;
 
@@ -46,12 +46,13 @@ public class PostActivity extends AppCompatActivity {
         post = getIntent().getParcelableExtra("POST");
 
         String likesNumber = getIntent().getStringExtra("LIKES");
+
         if(likesNumber != null){
             likeCount.setText(likesNumber);
         }
 
-        String longV = post.getDatePost();
-        long millisecond = Long.parseLong(longV);
+        String longValue = post.getDatePost();
+        long millisecond = Long.parseLong(longValue);
         String dateString = DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
         postTimestamp.setText(dateString);
 
