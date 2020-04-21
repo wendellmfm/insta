@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<User> call, Throwable t) {
-                                    Toast.makeText(RegisterActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                     } else

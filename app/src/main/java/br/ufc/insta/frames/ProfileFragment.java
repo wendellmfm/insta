@@ -34,9 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class ProfileFragment extends Fragment {
 
     private View mView;
@@ -113,7 +111,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                generatePostList(response.body());
+                if(response.body() != null){
+                    generatePostList(response.body());
+                }
             }
 
             @Override
@@ -132,7 +132,7 @@ public class ProfileFragment extends Fragment {
         String count = " " + postList.size() + " Posts";
         postCount.setText(count);
 
-        getAllLikes();
+        //getAllLikes();
     }
 
     private void getAllLikes() {

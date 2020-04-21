@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">InstaCloud</string>
     <string name="instacopy">InstaCloud</string>
-    <string name="email_address">e-mail</string>
+    <string name="email_address">E-mail</string>
     <string name="password">Senha</string>
     <string name="login">Login</string>
 

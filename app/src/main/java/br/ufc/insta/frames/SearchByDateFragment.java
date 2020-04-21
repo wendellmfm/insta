@@ -31,10 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeFragment extends Fragment {
+
+public class SearchByDateFragment extends Fragment {
 
     private View mView;
 
@@ -50,7 +48,7 @@ public class HomeFragment extends Fragment {
     User user;
     private List<Post> postList;
 
-    public HomeFragment() {
+    public SearchByDateFragment() {
         // Required empty public constructor
     }
 

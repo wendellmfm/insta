@@ -45,9 +45,7 @@ import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class CameraFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private int RESULT_LOAD_IMAGE = 5;
@@ -75,7 +73,6 @@ public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_camera, container, false);
         imageView = mView.findViewById(R.id.camera_imageView);
         button = mView.findViewById(R.id.floatingActionButton);

@@ -25,9 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class SearchFragment extends Fragment {
 
     SearchView searchView;
@@ -47,8 +45,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if(_rootView==null) {
+        if(_rootView == null) {
             mView = inflater.inflate(R.layout.fragment_search, container, false);
             _rootView=mView;
             searchView = mView.findViewById(R.id.searchView);
@@ -105,7 +102,7 @@ public class SearchFragment extends Fragment {
 
         }
         else{
-
+            //TODO: Handle this...
         }
 
         return _rootView;

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
     private static Retrofit retrofitLikes;
-    private static final String BASE_URL = "http://lbredesocial-1842965994.us-east-1.elb.amazonaws.com:8080";
+    private static final String BASE_URL = "https://redesocialtrinta.uc.r.appspot.com";
     private static final String BASE_URL_LIKES = "http://lbredesocial-1842965994.us-east-1.elb.amazonaws.com:8102";
 
     public static Retrofit getRetrofitInstance() {

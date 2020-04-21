@@ -26,7 +26,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:text="Selecione a foto para a postagem:"
+        android:text="Selecione uma foto para postar:"
         android:padding="15dp"
         android:textSize="16sp"
         android:textStyle="bold"

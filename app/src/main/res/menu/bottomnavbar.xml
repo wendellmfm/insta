@@ -3,8 +3,7 @@
 
     <item
         android:id="@+id/bottomnav_home"
-        android:checkable="false"
-        android:icon="@drawable/homeicon"
+        android:icon="@drawable/postsearchicon"
         android:title="Home"
         />
     <item
@@ -17,12 +16,8 @@
         android:icon="@drawable/cameraicon"
         android:title="Camera" />
     <item
-        android:id="@+id/bottomnav_notif"
-        android:icon="@drawable/notificon"
-        android:title="Notif"
-       />
-    <item
         android:id="@+id/bottomnav_profile"
+        android:checkable="false"
         android:icon="@drawable/usericon"
         android:title="Profile" />
 </menu>
