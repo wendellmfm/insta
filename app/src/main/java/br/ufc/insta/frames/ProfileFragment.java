@@ -44,6 +44,8 @@ public class ProfileFragment extends Fragment {
     private HashMap<String, String> likeHashmap = new HashMap<>();
     private List<Like> likes;
 
+    public static boolean reloadFragment;
+
     public ProfileFragment() {
 
     }
@@ -92,7 +94,16 @@ public class ProfileFragment extends Fragment {
         });
 
         return mView;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(reloadFragment) {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            reloadFragment = false;
+        }
     }
 
     private void loadPosts(){

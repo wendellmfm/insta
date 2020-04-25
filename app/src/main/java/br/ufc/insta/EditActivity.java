@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,9 +17,11 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import br.ufc.insta.frames.ProfileFragment;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;
+import br.ufc.insta.utils.GlideApp;
 import br.ufc.insta.utils.ImageUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -54,6 +59,13 @@ public class EditActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.edit_progress);
         progressBar.setVisibility(View.INVISIBLE);
+
+        fullname.setText(MainActivity.user.getFullName());
+
+        GlideApp.with(MainActivity.mainContext)
+                .load(MainActivity.user.getPhoto())
+                .placeholder(R.drawable.usericon)
+                .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,9 +154,10 @@ public class EditActivity extends AppCompatActivity {
                 User user = response.body();
                 progressBar.setVisibility(View.INVISIBLE);
 
-
-
                 Toast.makeText(EditActivity.this, "Usuário editado com sucesso.", Toast.LENGTH_SHORT).show();
+
+                ProfileFragment.reloadFragment = true;
+
                 finish();
             }
 
