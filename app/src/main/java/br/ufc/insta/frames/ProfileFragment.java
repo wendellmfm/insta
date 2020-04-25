@@ -123,11 +123,11 @@ public class ProfileFragment extends Fragment {
         String count = " " + postList.size() + " Posts";
         postCount.setText(count);
 
-        //getAllLikes();
+        getAllLikes();
     }
 
     private void getAllLikes() {
-        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Like>> call = service.getAllLikes();
         call.enqueue(new Callback<List<Like>>() {
             @Override

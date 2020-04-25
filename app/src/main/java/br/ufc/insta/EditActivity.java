@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import br.ufc.insta.models.Post;
 import br.ufc.insta.models.User;
 import br.ufc.insta.service.GetDataService;
 import br.ufc.insta.service.RetrofitClientInstance;

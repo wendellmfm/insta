@@ -81,7 +81,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void like() {
-        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Like> call = service.like(post.getId());
         call.enqueue(new Callback<Like>() {
             @Override
@@ -98,7 +98,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void dislike() {
-        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Like> call = service.dislike(post.getId());
         call.enqueue(new Callback<Like>() {
             @Override
@@ -115,7 +115,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void getAllLikes() {
-        GetDataService service = RetrofitClientInstance.getRetrofitInstanceLikes().create(GetDataService.class);
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Like>> call = service.getAllLikes();
         call.enqueue(new Callback<List<Like>>() {
             @Override

@@ -7,12 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
 import java.util.List;
 
-import br.ufc.insta.MainActivity;
 import br.ufc.insta.R;
 import br.ufc.insta.models.Post;
 import br.ufc.insta.utils.GlideApp;
@@ -57,7 +53,7 @@ public class GridAdapter extends BaseAdapter {
         }
 
         GlideApp.with(listViewHolder.imageView.getContext())
-                .load(postList.get(position).getPhotoPost())
+                .load("https://storage.cloud.google.com/redesocialtrinta/thiagoqueiroz/alvo.jpg")
                 .placeholder(R.drawable.usericon)
                 .into(listViewHolder.imageView);
 

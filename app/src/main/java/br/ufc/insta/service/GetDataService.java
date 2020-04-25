@@ -33,14 +33,14 @@ public interface GetDataService {
     Call<User> userLogin(@Path("nickname") String nickName, @Path("password") String password);
 
     @Multipart
-    @POST("/api/upload")
+    @POST("/api/gcp/upload")
     Call<User> uploadProfileImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);
 
     @Multipart
-    @POST("/api/upload")
+    @POST("/api/gcp/upload")
     Call<Post> uploadPostImage(@Query("nickName") String nickName, @Part MultipartBody.Part file, @Query("tipoFoto") String tipoFoto);
 
-    @GET("/")
+    @GET("/post/curtidas")
     Call<List<Like>> getAllLikes();
 
     @GET("/post/curtir/{id}")
