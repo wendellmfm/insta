@@ -53,7 +53,7 @@ public class GridAdapter extends BaseAdapter {
         }
 
         GlideApp.with(listViewHolder.imageView.getContext())
-                .load("https://storage.cloud.google.com/redesocialtrinta/thiagoqueiroz/alvo.jpg")
+                .load(postList.get(position).getPhotoPost())
                 .placeholder(R.drawable.usericon)
                 .into(listViewHolder.imageView);
 

@@ -66,7 +66,7 @@ public class Post implements Parcelable {
     }
 
     public String getPhotoPost() {
-        return photoPost;
+        return photoPost.replace("cloud.google", "googleapis");
     }
 
     public void setPhotoPost(String photoPost) {
