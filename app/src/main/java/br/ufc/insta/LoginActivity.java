@@ -1,12 +1,14 @@
 package br.ufc.insta;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailfield, passfield;
     private TextView reg;
     private Button logBtn;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         passfield = findViewById(R.id.login_password);
         logBtn = findViewById(R.id.login_loginbtn);
         reg = findViewById(R.id.login_register2);
+        progressBar = findViewById(R.id.login_progressbar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,28 +45,35 @@ public class LoginActivity extends AppCompatActivity {
 
                 String nickName = emailfield.getText().toString();
                 String password = passfield.getText().toString();
+
+                progressBar.setVisibility(View.VISIBLE);
+
                 if(!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(password))
                 {
-                        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                        Call<User> call = service.userLogin(nickName, password);
-                        call.enqueue(new Callback<User>() {
-                            @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
-                                User user = response.body();
+                    GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                    Call<User> call = service.userLogin(nickName, password);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            progressBar.setVisibility(View.INVISIBLE);
 
-                                Toast.makeText(LoginActivity.this, "Login efetuado com sucesso.", Toast.LENGTH_SHORT).show();
-                                goToHome(user);
-                            }
+                            User user = response.body();
 
-                            @Override
-                            public void onFailure(Call<User> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
-                                String message = t.getMessage();
-                            }
-                        });
-                    } else{
-                        Toast.makeText(LoginActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
-                    }
+                            Toast.makeText(LoginActivity.this, "Login efetuado com sucesso.", Toast.LENGTH_SHORT).show();
+                            goToHome(user);
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            Toast.makeText(LoginActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+                            String message = t.getMessage();
+                        }
+                    });
+                } else{
+                    Toast.makeText(LoginActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

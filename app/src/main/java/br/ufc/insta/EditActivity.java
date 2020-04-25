@@ -142,6 +142,8 @@ public class EditActivity extends AppCompatActivity {
                 User user = response.body();
                 progressBar.setVisibility(View.INVISIBLE);
 
+
+
                 Toast.makeText(EditActivity.this, "Usuário editado com sucesso.", Toast.LENGTH_SHORT).show();
                 finish();
             }

@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.home_frame, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
 
     }
@@ -160,8 +159,14 @@ public class MainActivity extends AppCompatActivity {
         newPF.setArguments(arguments);
 
         transaction.replace(R.id.home_frame, newPF);
-        transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
     }
 
     @Override
