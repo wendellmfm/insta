@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context mainContext;
     public  static MainActivity mainActivity;
+    public static BottomNavigationView bottomNavigationView;
 
-    private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
     private Toolbar toolbar;
 

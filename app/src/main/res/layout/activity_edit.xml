@@ -82,7 +82,7 @@
         android:backgroundTint="#405de6"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        android:text="Save"
+        android:text="Salvar"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

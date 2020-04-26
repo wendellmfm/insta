@@ -4,20 +4,20 @@
     <item
         android:id="@+id/bottomnav_home"
         android:icon="@drawable/postsearchicon"
-        android:title="Home"
+        android:title="Posts"
         />
     <item
         android:id="@+id/bottomnav_search"
         android:icon="@drawable/searchicon"
-        android:title="Search"
+        android:title="Busca"
         />
     <item
         android:id="@+id/bottomnav_camera"
-        android:icon="@drawable/cameraicon"
-        android:title="Camera" />
+        android:icon="@drawable/ic_add_photo"
+        android:title="Post" />
     <item
         android:id="@+id/bottomnav_profile"
         android:checkable="false"
         android:icon="@drawable/usericon"
-        android:title="Profile" />
+        android:title="Perfil" />
 </menu>

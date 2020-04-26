@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         if(_rootView == null) {
             mView = inflater.inflate(R.layout.fragment_search, container, false);
-            _rootView=mView;
+            _rootView = mView;
             searchView = mView.findViewById(R.id.searchView);
             recyclerView = mView.findViewById(R.id.search_recyclerView);
 
@@ -62,6 +63,7 @@ public class SearchFragment extends Fragment {
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
 
+            searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(final String s) {
@@ -79,15 +81,15 @@ public class SearchFragment extends Fragment {
 
                                 adapter.notifyDataSetChanged();
                             }
-                            else{
-                                Toast.makeText(getContext(), "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
-                            }
-
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                            if(t instanceof EOFException){
+                                Toast.makeText(getContext(), "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
+                            } else{
+                                Toast.makeText(getContext(), "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 

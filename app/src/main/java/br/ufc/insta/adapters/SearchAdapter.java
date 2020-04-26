@@ -44,6 +44,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         public void onClick(View v) {
             User user = userList.get(getAdapterPosition());
             MainActivity.mainActivity.loadProfileFragment(user);
+            MainActivity.bottomNavigationView.setSelectedItemId(R.id.bottomnav_profile);
         }
     }
 
