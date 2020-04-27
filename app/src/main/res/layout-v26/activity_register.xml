@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
     android:background="@drawable/loginbackground"
-    >
+    tools:context=".RegisterActivity">
 
     <Button
         android:id="@+id/register_regBtn"
@@ -56,7 +55,7 @@
         android:backgroundTint="#75FFFFFF"
         android:ems="10"
         android:fontFamily="sans-serif-thin"
-        android:hint="Confirmar senha"
+        android:hint="Confirmar Senha"
         android:inputType="textPassword"
         android:padding="15dp"
         android:textColor="@color/white"
@@ -138,7 +137,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="32dp"
-        android:text="Já possui uma conta?"
+        android:text="Já tem uma conta?"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -163,4 +162,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/register_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
