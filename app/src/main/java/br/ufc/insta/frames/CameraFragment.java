@@ -77,7 +77,8 @@ public class CameraFragment extends Fragment {
         imageView = mView.findViewById(R.id.camera_imageView);
         button = mView.findViewById(R.id.floatingActionButton);
         postButton = mView.findViewById(R.id.button);
-        progressBar = mView.findViewById(R.id.camera_progressBar);
+        progressBar = mView.findViewById(R.id.post_progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +119,12 @@ public class CameraFragment extends Fragment {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(imageFile == null && imageURI == null){
+                    Toast.makeText(getContext(),"Por favor, tire uma foto ou selecione uma imagem da galeria para continuar.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
 
                 if(isCameraImage){
                     uploadToServer(imageFile.getPath());
@@ -144,15 +151,33 @@ public class CameraFragment extends Fragment {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 Post post = response.body();
 
+                progressBar.setVisibility(View.INVISIBLE);
+
+                reloadFragment();
+
+                imageFile = null;
+                imageURI = null;
+
                 Intent intent = new Intent(MainActivity.mainContext, PostActivity.class);
                 intent.putExtra("POST", post);
                 startActivity(intent);
             }
+
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getContext(),"Não foi possível publicar a postagem. Por favor, tente novamente mais tarde!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void reloadFragment() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment f = fragmentManager.findFragmentById(R.id.home_frame);
+
+        if(f instanceof CameraFragment){
+            fragmentManager.beginTransaction().detach(f).attach(f).commit();
+        }
     }
 
     @Override

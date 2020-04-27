@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.home_frame, fragment);
         transaction.commit();
 
