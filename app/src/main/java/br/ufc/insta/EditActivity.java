@@ -101,13 +101,14 @@ public class EditActivity extends AppCompatActivity {
                             updateUser(password, name, null);
                         }
                     }
-                    else
-                        Toast.makeText(EditActivity.this, "Senhas diferentes. Tente novamente.", Toast.LENGTH_LONG).show();
+                    else {
                         progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(EditActivity.this, "Senhas diferentes. Tente novamente.", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else{
-                    Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(EditActivity.this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,12 +128,15 @@ public class EditActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                progressBar.setVisibility(View.INVISIBLE);
+
                 User user = response.body();
 
                 updateUser(password, name, user.getPhoto());
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
                 String message = t.getMessage();
             }
         });
@@ -163,8 +167,8 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(EditActivity.this, "Algo deu errado. Por favor, tente novamente mais tarde.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -173,7 +177,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==RESULT_LOAD_IMAGE &&  resultCode == RESULT_OK)
+        if(requestCode == RESULT_LOAD_IMAGE &&  resultCode == RESULT_OK)
         {
             imageURI = data.getData();
             imageView.setImageURI(imageURI);

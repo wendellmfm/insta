@@ -72,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 } else{
+                    progressBar.setVisibility(View.INVISIBLE);
+
                     Toast.makeText(LoginActivity.this,"Preencha todos os campos.", Toast.LENGTH_LONG).show();
                 }
             }

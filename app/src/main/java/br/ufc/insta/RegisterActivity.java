@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText nickNameField, fullNameField, passwordField, passwordConfirmationField, emailField;
     private TextView loginField;
     private Button regBtn;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
         emailField = findViewById(R.id.regiter_email);
         loginField = findViewById(R.id.register_login);
         regBtn = findViewById(R.id.register_regBtn);
+        progressBar = findViewById(R.id.register_progressbar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         loginField.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String passwordConfirmation = passwordConfirmationField.getText().toString();
                 final String email = emailField.getText().toString();
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 if (!TextUtils.isEmpty(nickName) && !TextUtils.isEmpty(fullName) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConfirmation) && !TextUtils.isEmpty(email)) {
                     if (password.equals(passwordConfirmation)) {
                             GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -67,12 +73,14 @@ public class RegisterActivity extends AppCompatActivity {
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     User user = response.body();
                                     goToHome(user);
                                 }
 
                                 @Override
                                 public void onFailure(Call<User> call, Throwable t) {
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(RegisterActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
                                 }
                             });
