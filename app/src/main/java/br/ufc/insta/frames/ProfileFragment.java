@@ -128,7 +128,7 @@ public class ProfileFragment extends Fragment {
 
     private void generatePostList(List<Post> postList) {
         this.postList = postList;
-        GridAdapter adapter = new GridAdapter(this.getContext(), postList);
+        GridAdapter adapter = new GridAdapter(MainActivity.mainContext, postList);
         gridLayout.setAdapter(adapter);
 
         String count = " " + postList.size() + " Posts";

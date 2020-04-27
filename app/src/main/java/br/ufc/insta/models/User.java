@@ -111,7 +111,10 @@ public class User implements Parcelable {
     }
 
     public String getPhoto() {
-        return photo.replace("cloud.google", "googleapis");
+        if(photo != null){
+            return photo.replace("cloud.google", "googleapis");
+        }
+        return null;
     }
 
     public void setPhoto(String photo) {
