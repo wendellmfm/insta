@@ -26,7 +26,8 @@ public class PostActivity extends AppCompatActivity {
     private TextView postTite, postDesc, postTimestamp, likeCount;
     private ImageView postImage, likeBtn;
 
-    boolean likeStatus = false;
+    boolean likeStatus;
+    boolean actionLike = true;
 
     private Post post;
     private List<Like> likes;
@@ -66,6 +67,8 @@ public class PostActivity extends AppCompatActivity {
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!actionLike) return;
+
                 likeStatus =! likeStatus;
                 if(likeStatus){
                     like();
@@ -81,6 +84,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void like() {
+        actionLike = false;
+
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Like> call = service.like(post.getId());
         call.enqueue(new Callback<Like>() {
@@ -88,16 +93,21 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(Call<Like> call, Response<Like> response) {
                 Like like = response.body();
                 likeCount.setText(like.getNrCurtidas());
+
+                actionLike = true;
             }
 
             @Override
             public void onFailure(Call<Like> call, Throwable t) {
+                actionLike = true;
                 Toast.makeText(PostActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void dislike() {
+        actionLike = false;
+
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Like> call = service.dislike(post.getId());
         call.enqueue(new Callback<Like>() {
@@ -105,10 +115,13 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(Call<Like> call, Response<Like> response) {
                 Like like = response.body();
                 likeCount.setText(like.getNrCurtidas());
+
+                actionLike = true;
             }
 
             @Override
             public void onFailure(Call<Like> call, Throwable t) {
+                actionLike = true;
                 Toast.makeText(PostActivity.this, "Algo deu errado... Tente novamente mais tarde!", Toast.LENGTH_SHORT).show();
             }
         });
