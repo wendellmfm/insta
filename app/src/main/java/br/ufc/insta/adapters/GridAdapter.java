@@ -1,6 +1,7 @@
 package br.ufc.insta.adapters;
 
 import android.content.Context;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +53,14 @@ public class GridAdapter extends BaseAdapter {
             listViewHolder = (ViewHolder)convertView.getTag();
         }
 
+        CircularProgressDrawable progressDrawable = new CircularProgressDrawable(convertView.getContext());
+        progressDrawable.setStrokeWidth(10f);
+        progressDrawable.setCenterRadius(30f);
+        progressDrawable.start();
+
         GlideApp.with(listViewHolder.imageView.getContext())
                 .load(postList.get(position).getPhotoPost())
-                .placeholder(R.drawable.usericon)
+                .placeholder(progressDrawable)
                 .into(listViewHolder.imageView);
 
         return convertView;

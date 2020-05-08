@@ -1,6 +1,7 @@
 package br.ufc.insta;
 
 import android.os.Bundle;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -57,9 +58,14 @@ public class PostActivity extends AppCompatActivity {
         String dateString = DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
         postTimestamp.setText(dateString);
 
+        CircularProgressDrawable progressDrawable = new CircularProgressDrawable(this);
+        progressDrawable.setStrokeWidth(10f);
+        progressDrawable.setCenterRadius(200f);
+        progressDrawable.start();
+
         GlideApp.with(getApplicationContext())
                 .load(post.getPhotoPost())
-                .placeholder(R.drawable.usericon)
+                .placeholder(progressDrawable)
                 .into(postImage);
 
         getAllLikes();
