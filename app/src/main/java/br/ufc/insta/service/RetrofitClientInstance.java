@@ -5,8 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static Retrofit retrofitLikes;
-    private static final String BASE_URL = "https://redesocialtrinta.uc.r.appspot.com";
+    public static String BASE_URL = "https://redesocialtrinta.uc.r.appspot.com";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
@@ -18,4 +17,7 @@ public class RetrofitClientInstance {
         return retrofit;
     }
 
+    public static void resetRetrofitInstance(){
+        retrofit = null;
+    }
 }
